@@ -33,16 +33,22 @@ public class FeatureMapperModelsBuilderTest {
 		featureMapperBuilderTestSupport.thatHasVariationMappedToClass("A", "ExampleClassA", "ClassA_Resource", variationPoint_PointP);
 		// That has a variant B mapped to class ExampleClassB in resource ClassB_Resource
 		featureMapperBuilderTestSupport.thatHasVariationMappedToClass("B", "ExampleClassB", "ClassB_Resource", variationPoint_PointP);
+		// With a variation point PointP2
+		org.splevo.vpm.variability.VariationPoint variationPoint_PointP2 = featureMapperBuilderTestSupport.withAVariationPointGroupThatHasVariationsAnd("PointP2", variationPointModel_VPM1);
+		// That has a variant C mapped to class ExampleClassC in resource ClassC_Resource
+		featureMapperBuilderTestSupport.thatHasVariationMappedToClass("C", "ExampleClassC", "ClassC_Resource", variationPoint_PointP2);
 		// Then the FeatureMapper Models Builder generates
 		de.devboost.featuremapper.splevo.builder.FeatureMapperModelSet featureMapperModelSet_ = featureMapperBuilderTestSupport.theModelsBuilderWillGenerate(variationPointModel_VPM1);
 		// A Feature Model
 		org.featuremapper.models.feature.FeatureModel featureModel_ = featureMapperBuilderTestSupport.aFeatureModel(featureMapperModelSet_);
 		// With a root feature RootFeature
 		org.featuremapper.models.feature.Feature feature_RootFeature = featureMapperBuilderTestSupport.withARootFeature("RootFeature", featureModel_);
-		// With 1 child features named PointP
-		featureMapperBuilderTestSupport.withChildFeaturesNamed(1, java.util.Arrays.asList(new java.lang.String[] {"PointP"}), feature_RootFeature);
+		// With 2 child features named PointP and PointP2
+		featureMapperBuilderTestSupport.withChildFeaturesNamed(2, java.util.Arrays.asList(new java.lang.String[] {"PointP", "and", "PointP2"}), feature_RootFeature);
 		// With feature PointP that contains 2 child features named PointP_A and PointP_B
 		featureMapperBuilderTestSupport.withFeatureThatContainsChildFeaturesNamedAnd("PointP", 2, java.util.Arrays.asList(new java.lang.String[] {"PointP_A", "and", "PointP_B"}), featureModel_);
+		// With feature PointP2 that contains 0 children
+		featureMapperBuilderTestSupport.withChildFeaturesNamed("PointP2", featureModel_);
 		// A Mapping Model
 		org.featuremapper.models.featuremapping.FeatureMappingModel featureMappingModel_ = featureMapperBuilderTestSupport.MappingModel(featureMapperModelSet_);
 		// With solution space model ClassA_Resource

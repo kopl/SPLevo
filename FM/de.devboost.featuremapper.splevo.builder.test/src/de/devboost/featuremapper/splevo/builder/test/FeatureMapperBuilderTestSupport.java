@@ -17,6 +17,7 @@ import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.featuremapper.models.feature.Feature;
 import org.featuremapper.models.feature.FeatureModel;
+import org.featuremapper.models.feature.Group;
 import org.featuremapper.models.featuremapping.ElementMapping;
 import org.featuremapper.models.featuremapping.FeatureMappingModel;
 import org.featuremapper.models.featuremapping.FeatureRef;
@@ -56,12 +57,11 @@ public class FeatureMapperBuilderTestSupport {
 	}
 
 	@TextSyntax("With a variation point #1")
-	public VariationPoint withAVariationPointGroupThatHasVariationsAnd(
-			String pointName, VariationPointModel vpm) {
+	public VariationPoint withAVariationPointGroupThatHasVariationsAnd(String pointName, VariationPointModel vpm) {
 		VariationPointGroup vpg = factory.createVariationPointGroup();
 		vpg.setName(pointName);
 		vpm.getVariationPointGroups().add(vpg);
-	
+
 		EList<VariationPoint> variationPoints = vpg.getVariationPoints();
 		VariationPoint vpa = factory.createVariationPoint();
 		vpa.setRefactored(true);
@@ -70,12 +70,11 @@ public class FeatureMapperBuilderTestSupport {
 	}
 
 	@TextSyntax("That has a variant #1 mapped to class #2 in resource #3")
-	public void thatHasVariationMappedToClass(String variantName,
-			String exampleClassName, String resourceName, VariationPoint point) {
+	public void thatHasVariationMappedToClass(String variantName, String exampleClassName, String resourceName,
+			VariationPoint point) {
 		Variant aVariant = factory.createVariant();
 		aVariant.setId(variantName);
-		JaMoPPSoftwareElement softwareEntity = softwareFactory.eINSTANCE
-				.createJaMoPPSoftwareElement();
+		JaMoPPSoftwareElement softwareEntity = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
 		Class jamoppClass = ClassifiersFactory.eINSTANCE.createClass();
 		jamoppClass.setName(exampleClassName);
 		Resource res = new ResourceImpl();
@@ -89,8 +88,7 @@ public class FeatureMapperBuilderTestSupport {
 	}
 
 	@TextSyntax("Then the FeatureMapper Models Builder generates")
-	public FeatureMapperModelSet theModelsBuilderWillGenerate(
-			VariationPointModel vpm) {
+	public FeatureMapperModelSet theModelsBuilderWillGenerate(VariationPointModel vpm) {
 		// we use a test mock of the FeatureMapperModelsBuilder here, to avoid dependency on eclipse workspace
 		FeatureMapperModelsBuilder builder = new FeatureMapperModelsBuilderMock();
 		FeatureModelWrapper<FeatureMapperModelSet> fmWrapper = builder.build(vpm, "RootFeature");
@@ -120,28 +118,50 @@ public class FeatureMapperBuilderTestSupport {
 	}
 
 	@TextSyntax("With #1 child features named #2")
-	public void withChildFeaturesNamed(int childSize, List<String> childNames,
-			Feature feature) {
-		Iterable<String> childNamesFiltered = Splitter.on(" and ").split(
-				Joiner.on(" ").join(childNames));
-		EList<Feature> childFeatures = feature.getGroups().get(0)
-				.getChildFeatures();
-		assertEquals(childSize, childFeatures.size());
+	public void withChildFeaturesNamed(int childSize, List<String> childNames, Feature feature) {
+		Iterable<String> childNamesFiltered = Splitter.on(" and ").split(Joiner.on(" ").join(childNames));
+		EList<Group> groups = feature.getGroups();
 		List<String> foundChilds = new LinkedList<String>();
-		for (Feature f : childFeatures) {
-			String name = f.getName();
-			foundChilds.add(name);
+		for (Group g : groups) {
+			EList<Feature> childFeatures = g.getChildFeatures();
+			for (Feature child : childFeatures) {
+				String name = child.getName();
+				foundChilds.add(name);
+			}
+
 		}
+		assertEquals(childSize, foundChilds.size());
+
 		for (String expectedChild : childNamesFiltered) {
-			assertTrue("Expected child " + expectedChild,
-					foundChilds.contains(expectedChild));
+			assertTrue("Expected child " + expectedChild, foundChilds.contains(expectedChild));
 		}
+	}
+	
+	@TextSyntax("With feature #1 that contains 0 children")
+	public void withChildFeaturesNamed(String featureName, FeatureModel model) {
+		Feature feature = findFeatureNamed(featureName, model);
+		EList<Group> groups = feature .getGroups();
+		List<String> foundChilds = new LinkedList<String>();
+		for (Group g : groups) {
+			EList<Feature> childFeatures = g.getChildFeatures();
+			for (Feature child : childFeatures) {
+				String name = child.getName();
+				foundChilds.add(name);
+			}
+
+		}
+		assertEquals(0, foundChilds.size());
 	}
 
 	@TextSyntax("With feature #1 that contains #2 child features named #3")
-	public void withFeatureThatContainsChildFeaturesNamedAnd(
-			String featurename, int childSize, List<String> childNames,
-			FeatureModel model) {
+	public void withFeatureThatContainsChildFeaturesNamedAnd(String featurename, int childSize,
+			List<String> childNames, FeatureModel model) {
+		Feature parentFeature = findFeatureNamed(featurename, model);
+		assertNotNull(parentFeature);
+		withChildFeaturesNamed(childSize, childNames, parentFeature);
+	}
+
+	private Feature findFeatureNamed(String featurename, FeatureModel model) {
 		EList<Feature> allFeatures = model.getAllFeatures();
 		Feature parentFeature = null;
 		for (Feature feature : allFeatures) {
@@ -150,13 +170,11 @@ public class FeatureMapperBuilderTestSupport {
 				break;
 			}
 		}
-		assertNotNull(parentFeature);
-		withChildFeaturesNamed(childSize, childNames, parentFeature);
+		return parentFeature;
 	}
 
 	@TextSyntax("With a mapping of feature #1 to #2")
-	public void withAMappingOfFeatureTo(String featureName,
-			String artifactName, FeatureMappingModel mappingModel) {
+	public void withAMappingOfFeatureTo(String featureName, String artifactName, FeatureMappingModel mappingModel) {
 		for (Mapping mapping : mappingModel.getMappings()) {
 			if (!(mapping instanceof ElementMapping)) {
 				continue;
@@ -175,8 +193,7 @@ public class FeatureMapperBuilderTestSupport {
 	}
 
 	@TextSyntax("With solution space model #1")
-	public void withSolutionSpaceModel(String resourceName,
-			FeatureMappingModel model) {
+	public void withSolutionSpaceModel(String resourceName, FeatureMappingModel model) {
 		EList<SolutionModelRef> solutionModels = model.getSolutionModels();
 		assertTrue("No solution space models set.", solutionModels.size() > 0);
 		for (SolutionModelRef solutionModelRef : solutionModels) {

@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -126,41 +128,41 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 
 		for (VariationPointGroup variationPointGroup : vpm.getVariationPointGroups()) {
 			cachedVariantFeatures.clear();
-			Feature vpFeature = createVariationPointGroupFeature(variationPointGroup, featureModel.getRoot());
 
-			Group group = createMandatoryFeatureGroup();
-			vpFeature.getGroups().add(group);
+			if (hasMultipleDifferentVariationPoints(variationPointGroup)) {
+				Feature vpFeature = createVariationPointGroupFeature(variationPointGroup, featureModel.getRoot(), true);
 
-			for (VariationPoint variationPoint : variationPointGroup.getVariationPoints()) {
-				if (!variationPoint.isRefactored()) {
-					continue;
-				}
+				Group group = createFeatureGroup();
+				vpFeature.getGroups().add(group);
 
-				for (Variant variant : variationPoint.getVariants()) {
-					Feature vFeature = createVariantFeature(variationPointGroup, variant);
-					vFeature.setMaxCardinality(1);
-					group.getChildFeatures().add(vFeature);
+				// make group mandatory and child groups alternative
+				group.setMinCardinality(1);
+				group.setMaxCardinality(1);
 
-					EList<SoftwareElement> softwareEntities = variant.getImplementingElements();
-
-					for (SoftwareElement softwareElement : softwareEntities) {
-						getOrCreateColorMapping(vFeature, mappingModel);
-						ElementMapping mapping = mappingFactory.createElementMapping();
-						FeatureRef featureRef = mappingFactory.createFeatureRef();
-						featureRef.setFeature(vFeature);
-						mapping.setTerm(featureRef);
-
-						EObject wrappedElement = softwareElement.getWrappedElement();
-
-						mapping.setElement(wrappedElement);
-						Resource containingResource = wrappedElement.eResource();
-						URI fixedUri = getFixedURI(containingResource.getURI());
-						containingResource.setURI(fixedUri);
-						solutionModelResources.add(containingResource);
-
-						mappingModel.getMappings().add(mapping);
+				for (VariationPoint variationPoint : variationPointGroup.getVariationPoints()) {
+					if (!variationPoint.isRefactored()) {
+						continue;
 					}
 
+					for (Variant variant : variationPoint.getVariants()) {
+						Feature vFeature = createVariantFeature(variationPointGroup, variant);
+						vFeature.setMaxCardinality(1);
+						group.getChildFeatures().add(vFeature);
+						addFeatureMapping(mappingFactory, mappingModel, solutionModelResources, variant, vFeature);
+					}
+				}
+
+			} else {
+				Feature vpFeature = createVariationPointGroupFeature(variationPointGroup, featureModel.getRoot(), false);
+
+				for (VariationPoint variationPoint : variationPointGroup.getVariationPoints()) {
+					if (!variationPoint.isRefactored()) {
+						continue;
+					}
+
+					for (Variant variant : variationPoint.getVariants()) {
+						addFeatureMapping(mappingFactory, mappingModel, solutionModelResources, variant, vpFeature);
+					}
 				}
 			}
 		}
@@ -192,6 +194,45 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 		return new FeatureModelWrapper<FeatureMapperModelSet>(featureMapperModelSet, true);
 	}
 
+	private void addFeatureMapping(FeatureMappingFactory mappingFactory, FeatureMappingModel mappingModel,
+			List<Resource> solutionModelResources, Variant variant, Feature vFeature) {
+		EList<SoftwareElement> softwareEntities = variant.getImplementingElements();
+
+		for (SoftwareElement softwareElement : softwareEntities) {
+			getOrCreateColorMapping(vFeature, mappingModel);
+			ElementMapping mapping = mappingFactory.createElementMapping();
+			FeatureRef featureRef = mappingFactory.createFeatureRef();
+			featureRef.setFeature(vFeature);
+			mapping.setTerm(featureRef);
+
+			EObject wrappedElement = softwareElement.getWrappedElement();
+
+			mapping.setElement(wrappedElement);
+			Resource containingResource = wrappedElement.eResource();
+			URI fixedUri = getFixedURI(containingResource.getURI());
+			containingResource.setURI(fixedUri);
+			solutionModelResources.add(containingResource);
+
+			mappingModel.getMappings().add(mapping);
+		}
+	}
+
+	private boolean hasMultipleDifferentVariationPoints(VariationPointGroup variationPointGroup) {
+		EList<VariationPoint> variationPoints = variationPointGroup.getVariationPoints();
+		Set<String> ids = new HashSet<String>();
+		for (VariationPoint variationPoint : variationPoints) {
+			EList<Variant> variants = variationPoint.getVariants();
+			for (Variant variant : variants) {
+				String id = variant.getId();
+				ids.add(id);
+			}
+			if (ids.size() > 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void initialiseColorMappings(Collection<ColorMapping> values) {
 		List<Color> colors = createUniqueColors(values.size());
 		int i = 0;
@@ -208,7 +249,6 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 			String hexColor = indexcolors[i + 1 % 128];
 			Color color = Color.decode(hexColor);
 			colors.add(color);
-			System.out.println(color);
 		}
 		return colors;
 	}
@@ -227,6 +267,13 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 		colorMappings.put(vFeature, colorMapping);
 	}
 
+	/**
+	 * fixes absolute file paths to workspace relative ones
+	 * 
+	 * @param uri
+	 *            the uri to fix
+	 * @return the fixed uri
+	 */
 	protected URI getFixedURI(URI uri) {
 		URI fixedUri = uri;
 		if (uri.isFile()) {
@@ -270,15 +317,28 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 	 *            The feature to attach the group to.
 	 * @return The new feature element.
 	 */
-	private Feature createVariationPointGroupFeature(VariationPointGroup variationPointGroup, Feature parentFeature) {
-		Group group = createMandatoryFeatureGroup();
+	private Feature createVariationPointGroupFeature(VariationPointGroup variationPointGroup, Feature parentFeature,
+			boolean mandatory) {
+		Group group = createFeatureGroup();
+		if (mandatory) {
+			group.setMinCardinality(1);
+		} else {
+			group.setMinCardinality(0);
+		}
+		group.setMaxCardinality(1);
+
 		parentFeature.getGroups().add(group);
 
 		Feature feature = FeatureFactory.eINSTANCE.createFeature();
 		feature.setName(variationPointGroup.getName());
 		// feature.setId(EcoreUtil.generateUUID());
 		group.getChildFeatures().add(feature);
-
+		if (mandatory) {
+			feature.setMinCardinality(1);
+		} else {
+			feature.setMinCardinality(0);
+		}
+		feature.setMaxCardinality(1);
 		return feature;
 	}
 
@@ -287,11 +347,9 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 	 * 
 	 * @return The instantiated and configured feature group.
 	 */
-	private Group createMandatoryFeatureGroup() {
+	private Group createFeatureGroup() {
 		Group group = FeatureFactory.eINSTANCE.createGroup();
-		// group.setId(EcoreUtil.generateUUID());
-		group.setMinCardinality(1);
-		group.setMaxCardinality(1);
+
 		return group;
 	}
 
