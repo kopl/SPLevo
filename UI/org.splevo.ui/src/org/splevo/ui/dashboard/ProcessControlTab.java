@@ -16,18 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.mihalis.opal.header.Header;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
@@ -56,8 +59,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
     private Button generateFMBtn;
 
     /** Button Open VPM. */
-    private Button openVPMBtn;
-
+    private Button openVPMBtn;    
+    
     /**
      * Create the tab to handle the SPL profile configuration.
      * 
@@ -86,73 +89,94 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         TabItem tbtmProcessControl = new TabItem(tabFolder, SWT.NONE, tabIndex);
         tbtmProcessControl.setText("Process Control");
+        
+        ScrolledComposite scrolledComposite = new ScrolledComposite(tabFolder, SWT.V_SCROLL);
+        scrolledComposite.setExpandHorizontal(true);
+        scrolledComposite.setExpandVertical(true);
+        tbtmProcessControl.setControl(scrolledComposite);
 
-        Composite mainContainer = new Composite(tabFolder, SWT.NONE);
-        tbtmProcessControl.setControl(mainContainer);
-        GridLayout layout = new GridLayout(9, false);
-        layout.horizontalSpacing = 5;
-        layout.verticalSpacing = 1;
-        mainContainer.setLayout(layout);
+        Composite composite = new Composite(scrolledComposite, SWT.FILL);
+        composite.setLayout(new GridLayout(1, false));
+        composite.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
 
-        Label lblSplevoDashboard = new Label(mainContainer, SWT.NONE);
-        GridData d = new GridData(SWT.CENTER, SWT.CENTER, false, false, 9, 1);
-        d.heightHint = lblSplevoDashboard.computeSize(SWT.DEFAULT, SWT.DEFAULT).y * 2;
-        lblSplevoDashboard.setLayoutData(d);
-        lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
-        lblSplevoDashboard.setText("SPLevo Dashboard");
-
-        Composite filler1 = new Composite(mainContainer, SWT.NONE);
+        scrolledComposite.setContent(composite); 
+        
+        createHeader(composite);        
+        createActions(composite); 
+    } 
+    
+    
+    private void createActions(Composite composite) {
+        
+        Group g = new Group(composite, SWT.FILL);
+        g.setText("Actions");
+        g.setLayout(new GridLayout(9, false));
+        g.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+        
+        Composite filler1 = new Composite(g, SWT.NONE);
         GridData layoutData = new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1);
         layoutData.heightHint = 0;
         filler1.setLayoutData(layoutData);
 
         final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
-        Label circleLbl = new Label(mainContainer, SWT.NONE);
+        Label circleLbl = new Label(g, SWT.NONE);
         circleLbl.setImage(circleImage);
         circleLbl.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
 
-        Composite filler2 = new Composite(mainContainer, SWT.NONE);
+        Composite filler2 = new Composite(g, SWT.NONE);
         filler2.setLayoutData(layoutData);
 
-        Label activityStart = new Label(mainContainer, SWT.NONE);
+        Label activityStart = new Label(g, SWT.NONE);
         activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
 
-        addActivityFlowButton(mainContainer);
+        addActivityFlowButton(g);
 
-        initVpmBtn = new Button(mainContainer, SWT.WRAP);
+        initVpmBtn = new Button(g, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
         initVpmBtn.setText("Init\nVPM");
+        initVpmBtn.setToolTipText("Initializes the variation point model."
+                + " First, the differences between the consolidation projects are calculated."
+                + " Afterwards, the differences are stored in variation points and variation point groups.");
         getGridDataForButtons(initVpmBtn);
 
-        addActivityFlowButton(mainContainer);
+        addActivityFlowButton(g);
 
-        analyzeVPMBtn = new Button(mainContainer, SWT.WRAP);
+        analyzeVPMBtn = new Button(g, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
         analyzeVPMBtn.setText("Refine\nVPM");
+        analyzeVPMBtn.setToolTipText("Refine the variation point model by grouping and merging variation points."
+                + " You can select various analyses that suggest such refinements.");
         getGridDataForButtons(analyzeVPMBtn);
 
-        addActivityFlowButton(mainContainer);
+        addActivityFlowButton(g);
 
-        startRefactoringBtn = new Button(mainContainer, SWT.WRAP);
+        startRefactoringBtn = new Button(g, SWT.WRAP);
         startRefactoringBtn.addMouseListener(new StartRefactoringListener(getSplevoProjectEditor()));
         startRefactoringBtn.setText("Refactor\nCopies");
+        startRefactoringBtn
+                .setToolTipText("Refactor the copies based on the current variation point model."
+                        + " The variation points are integrated into the leading project"
+                        + " The refactoring mechanisms are chosen based on the characteristics of the variation point.");
         getGridDataForButtons(startRefactoringBtn);
 
-        addActivityFlowButton(mainContainer);
+        addActivityFlowButton(g);
 
-        generateFMBtn = new Button(mainContainer, SWT.WRAP);
+        generateFMBtn = new Button(g, SWT.WRAP);
         generateFMBtn.addMouseListener(new GenerateFeatureModelListener(getSplevoProjectEditor()));
         generateFMBtn.setText("Export\nSPL");
+        generateFMBtn.setToolTipText("At any time, the designed software product line can be exportet to the format "
+                + "specified in the Configuration section of the dashboard.");
         getGridDataForButtons(generateFMBtn);
 
-        Composite filler3 = new Composite(mainContainer, SWT.NONE);
+        Composite filler3 = new Composite(g, SWT.NONE);
         filler3.setLayoutData(layoutData);
 
-        openVPMBtn = new Button(mainContainer, SWT.NONE);
+        openVPMBtn = new Button(g, SWT.NONE);
         openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
         openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
         openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
         openVPMBtn.setAlignment(SWT.CENTER);
+        openVPMBtn.setToolTipText("Opens the most recent variation point model for this project.");
     }
 
     private void getGridDataForButtons(Button button) {
@@ -228,5 +252,13 @@ public class ProcessControlTab extends AbstractDashboardTab {
         for (Control button : buttons) {
             button.setEnabled(false);
         }
+    }
+    
+    private void createHeader(Composite composite) {
+        final Header header = new Header(composite, SWT.NONE);
+        header.setTitle("SPLevo Dashboard");
+        header.setImage(ResourceManager.getPluginImage(SPLevoUIPlugin.PLUGIN_ID, "icons/kopl_dash.png"));
+        header.setDescription("Overview and controls for the consolidation process.");
+        header.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
     }
 }

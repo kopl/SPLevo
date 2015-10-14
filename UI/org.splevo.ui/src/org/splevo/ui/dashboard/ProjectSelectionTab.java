@@ -19,11 +19,14 @@ import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -34,7 +37,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.ResourceManager;
+import org.mihalis.opal.header.Header;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
 import org.splevo.ui.editors.listener.ProjectDropListener;
@@ -88,33 +93,55 @@ public class ProjectSelectionTab extends AbstractDashboardTab {
         // SOURCE PROJECT SELECTION TAB
 
         TabItem tbtmProjectSelection = new TabItem(tabFolder, SWT.NONE, tabIndex);
-        tbtmProjectSelection.setText("Source Projects");
-        Composite composite = new Composite(tabFolder, SWT.NONE);
-        tbtmProjectSelection.setControl(composite);
-        composite.setLayout(null);
+        tbtmProjectSelection.setText("Source Projects");         
+        
+        ScrolledComposite scrolledComposite = new ScrolledComposite(tabFolder, SWT.V_SCROLL);
+        scrolledComposite.setExpandHorizontal(true);
+        scrolledComposite.setExpandVertical(true);
+        tbtmProjectSelection.setControl(scrolledComposite);
 
-        Label lblNewLabel = new Label(composite, SWT.NONE);
+        Composite composite = new Composite(scrolledComposite, SWT.FILL);
+        composite.setLayout(new GridLayout(1, false));
+        composite.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
+        
+        createHeader(composite);
+        
+        
+        
+        
+        
+        
+        Composite comp = new Composite(composite, SWT.NONE);
+
+        
+        scrolledComposite.setContent(composite);
+        scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        //tbtmProjectSelection.setControl(comp);
+        comp.setLayout(null);
+        
+
+        Label lblNewLabel = new Label(comp, SWT.NONE);
         lblNewLabel.setToolTipText("Select the source entity models of the leading projects");
         lblNewLabel.setBounds(10, 10, 740, 20);
         lblNewLabel.setText("Define the projects to be consolidated");
 
-        Label labelVariantNameLeading = new Label(composite, SWT.NONE);
+        Label labelVariantNameLeading = new Label(comp, SWT.NONE);
         labelVariantNameLeading.setBounds(10, 37, 106, 20);
         labelVariantNameLeading.setText("Variant Name:");
 
-        Label labelVariantNameIntegration = new Label(composite, SWT.NONE);
+        Label labelVariantNameIntegration = new Label(comp, SWT.NONE);
         labelVariantNameIntegration.setText("Variant Name:");
         labelVariantNameIntegration.setBounds(430, 36, 106, 20);
 
-        inputVariantNameLeading = new Text(composite, SWT.BORDER);
+        inputVariantNameLeading = new Text(comp, SWT.BORDER);
         inputVariantNameLeading.setBounds(122, 36, 238, 26);
 
-        inputVariantNameIntegration = new Text(composite, SWT.BORDER);
+        inputVariantNameIntegration = new Text(comp, SWT.BORDER);
         inputVariantNameIntegration.setBounds(542, 36, 238, 26);
 
         // / LEADING PROJECT LIST
 
-        final TableViewer viewerLeadingProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+        final TableViewer viewerLeadingProjects = new TableViewer(comp, SWT.BORDER | SWT.FULL_SELECTION);
         viewerLeadingProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerLeadingProjects.setInput(splevoProject.getLeadingProjects());
         ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(getSplevoProjectEditor(),
@@ -132,7 +159,7 @@ public class ProjectSelectionTab extends AbstractDashboardTab {
 
         // / INTEGRATION PROJECT LIST
 
-        final TableViewer viewerIntegrationProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+        final TableViewer viewerIntegrationProjects = new TableViewer(comp, SWT.BORDER | SWT.FULL_SELECTION);
         viewerIntegrationProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerIntegrationProjects.setInput(splevoProject.getIntegrationProjects());
         ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(getSplevoProjectEditor(),
@@ -148,7 +175,7 @@ public class ProjectSelectionTab extends AbstractDashboardTab {
         tblclmnIntegrationProjects.setWidth(tblclmnIntegrationProjects.getParent().getBounds().width);
         tblclmnIntegrationProjects.setText("Integration Projects");
 
-        Button btnClear = new Button(composite, SWT.NONE);
+        Button btnClear = new Button(comp, SWT.NONE);
         btnClear.setGrayed(true);
         btnClear.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/cross.png"));
         btnClear.addMouseListener(new MouseAdapter() {
@@ -161,7 +188,7 @@ public class ProjectSelectionTab extends AbstractDashboardTab {
         });
         btnClear.setBounds(366, 63, 30, 30);
 
-        Button btnClearList = new Button(composite, SWT.NONE);
+        Button btnClearList = new Button(comp, SWT.NONE);
         btnClearList.setToolTipText("Clear the list of source projects to integrate.");
         btnClearList.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/cross.png"));
         btnClearList.addMouseListener(new MouseAdapter() {
@@ -174,7 +201,7 @@ public class ProjectSelectionTab extends AbstractDashboardTab {
         });
         btnClearList.setBounds(786, 63, 30, 30);
 
-        composite.setTabList(new Control[] { tableLeadingProjects, tableIntegrationProjects });
+        comp.setTabList(new Control[] { tableLeadingProjects, tableIntegrationProjects });
 
     }
 
@@ -208,6 +235,14 @@ public class ProjectSelectionTab extends AbstractDashboardTab {
 
         //
         return bindingContext;
+    }
+    
+    private void createHeader(Composite composite) {
+        final Header header = new Header(composite, SWT.NONE);
+        header.setTitle("Source Projects");
+        header.setImage(ResourceManager.getPluginImage(SPLevoUIPlugin.PLUGIN_ID, "icons/configure.png"));
+        header.setDescription("Configuration of the projects that take part in the consolidation.");
+        header.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
     }
 
 }

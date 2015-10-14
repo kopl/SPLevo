@@ -137,12 +137,15 @@ public class SPLProfileTab extends AbstractDashboardTab {
                     if (data instanceof VariabilityRefactoring) {
                         VariabilityRefactoring refactoring = (VariabilityRefactoring) data;
                         EList<String> recommendedRefactoringIds = getSPLProfile().getRecommendedRefactoringIds();
-                        if (item.getLastAction() == LAST_ACTION.SELECTION
-                                && !recommendedRefactoringIds.contains(refactoring.getId())) {
-                            recommendedRefactoringIds.add(refactoring.getId());
+                        if (!recommendedRefactoringIds.contains(refactoring.getId())) {
+
+                            if (item.getLastAction() == LAST_ACTION.SELECTION) {
+                                recommendedRefactoringIds.add(refactoring.getId());
+                            } else {
+                                recommendedRefactoringIds.remove(refactoring.getId());
+                            }
+
                             modified = true;
-                        } else {
-                            modified = recommendedRefactoringIds.remove(refactoring.getId());
                         }
                     }
                 }
