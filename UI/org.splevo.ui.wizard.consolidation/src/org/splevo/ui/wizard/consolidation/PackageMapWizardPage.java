@@ -14,15 +14,8 @@ package org.splevo.ui.wizard.consolidation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
-
-
-
-
-//import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -49,7 +42,6 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.wizard.consolidation.provider.PackageLabelProvider;
 import org.splevo.ui.wizard.consolidation.provider.PackagesTreeContentProvider;
 import org.splevo.ui.wizard.consolidation.util.PackageUtil;
-import org.splevo.ui.wizard.consolidation.util.PackagesComparator;
 
 /**
  * Fourth page of the New Consolidation Project Wizard in which java packages of the selected
@@ -69,17 +61,13 @@ public class PackageMapWizardPage extends WizardPage {
     private TableViewer table;
     private static final String SELECTION_INDEX = "selection";
     private static final String SELECTED_PACKAGE = "package";
-    // private static Logger logger = Logger.getLogger(NewConsolidationProjectWizard.class);
 
     private ViewerFilter selectedFilter = new ViewerFilter() {
         @Override
         public boolean select(Viewer viewer, Object parentElement, Object element) {
-
             if (packageFragmentFilterSelection.contains(element)) {
-
                 return false;
             }
-
             return true;
         }
     };
@@ -144,7 +132,7 @@ public class PackageMapWizardPage extends WizardPage {
                 control.dispose();
             }
         }
-    }
+    }    
 
     private void createPackagesTreeViewerLabels(Composite composite) {
         for (IProject project : choosenProjects) {
@@ -175,7 +163,6 @@ public class PackageMapWizardPage extends WizardPage {
                     int index = (Integer) ((Button) e.getSource()).getData(SELECTION_INDEX);
                     clearTextSelection(packageSelectionTextList.get(index));
                     packagesTreeViewerList.get(index).refresh();
-                    packagesTreeViewerList.get(index).expandAll();
                 }
 
                 @Override
@@ -207,7 +194,6 @@ public class PackageMapWizardPage extends WizardPage {
                         packageSelectionTextList.get(index).setText(PackageUtil.getName(fragment));
                     }
                     packagesTreeViewerList.get(index).refresh();
-
                 }
 
                 @Override
@@ -328,37 +314,7 @@ public class PackageMapWizardPage extends WizardPage {
 
         table.setContentProvider(ArrayContentProvider.getInstance());
         table.setInput(mergedPackages);
-
-    }
-
-    /**
-     * Get all java packages which are in the class path of the chosen projects without duplicates
-     * and ordered by name (ascending).
-     * 
-     * @return A sorted set with all java packages.
-     */
-    private SortedSet<IPackageFragment> getJavaPackages(IProject project) {
-        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
-
-        try {
-            if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-                for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
-                    if (!packageFragment.getElementName().equals("")) {
-                        javaPackagesSet.add(packageFragment);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            /*
-             * logger.error("Exception thrown during getting all java packages " +
-             * "which are in the class path of the chosen projects", e); } /*for (IPackageFragment p
-             * : allJavaPackages) { if
-             * (p.getJavaProject().getElementName().equals(project.getName())) {
-             * javaPackagesSet.add(p); }
-             */
-        }
-        return javaPackagesSet;
-    }
+    }    
 
     /**
      * Create a check box tree viewer for the packages.
@@ -368,8 +324,8 @@ public class PackageMapWizardPage extends WizardPage {
      */
     private void createPackagesTreeViewer(Composite composite) {
         packagesTreeViewerList = new ArrayList<TreeViewer>();
-        javaPackages = new ArrayList<SortedSet<IPackageFragment>>();
-        for (IProject project : choosenProjects) {
+        javaPackages = PackageUtil.getNonDuplicatesJavaPackages(projectConfiguration);
+        for (int i = 0; i < javaPackages.size(); i++) {
 
             TreeViewer packagesTreeViewer = new TreeViewer(composite, SWT.BORDER);
             Tree leftTree = packagesTreeViewer.getTree();
@@ -378,39 +334,18 @@ public class PackageMapWizardPage extends WizardPage {
             PackagesTreeContentProvider packagesTreeContentProvider = new PackagesTreeContentProvider();
             packagesTreeViewer.setLabelProvider(new PackageLabelProvider());
             packagesTreeViewer.setContentProvider(packagesTreeContentProvider);
-            javaPackages.add(getJavaPackages(project));
 
-            packagesTreeContentProvider.setJavaPackages(javaPackages.get(javaPackages.size() - 1));
+            packagesTreeContentProvider.setJavaPackages(javaPackages.get(i));
 
-            packagesTreeViewerList.add(packagesTreeViewer);
+            List<IPackageFragment> list = PackageUtil.getRootpackages(packagesTreeViewer.getContentProvider(), 
+                    javaPackages.get(i));
+            packagesTreeViewer.setInput(list.toArray(new IPackageFragment[list.size()]));
+            packagesTreeViewer.addFilter(selectedFilter);    
+            
+            packagesTreeViewerList.add(packagesTreeViewer);            
         }
-        removeDuplicates();
-        setInput();
-
-    }
+    }   
     
-    private void setInput() {
-        for (int i = 0; i < packagesTreeViewerList.size(); i++) {
-            PackagesTreeContentProvider content = (PackagesTreeContentProvider) packagesTreeViewerList.get(i).
-                    getContentProvider();
-            List<IPackageFragment> list = PackageUtil.getRootpackages(content, javaPackages.get(i));
-            packagesTreeViewerList.get(i).setInput(list.toArray(new IPackageFragment[list.size()]));
-            packagesTreeViewerList.get(i).addFilter(selectedFilter);            
-        }
-    }
-    
-    private void removeDuplicates() {
-        for (int i = 0; i < javaPackages.size(); i++) {
-            SortedSet<IPackageFragment> temp = new TreeSet<IPackageFragment>(javaPackages.get(i));
-            for (int j = 0; j < javaPackages.size(); j++) {
-                if (i == j) {
-                    continue;
-                }
-                javaPackages.get(i).removeAll(javaPackages.get(j));
-                javaPackages.get(j).removeAll(temp);
-            }
-        }
-    }
     
     /**
      * Save the mapped packages to the SPLevo project configuration file.

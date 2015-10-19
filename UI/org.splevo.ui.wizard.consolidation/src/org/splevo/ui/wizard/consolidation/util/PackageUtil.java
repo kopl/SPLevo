@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.wizard.consolidation.provider.PackagesTreeContentProvider;
 
@@ -52,15 +53,48 @@ public class PackageUtil {
     }
     
     /**
+     * Returns a list for each project in the projectConfiguration that contains all java packages which are not 
+     * members in the other projects.
+     * @param projectConfiguration The SPLevo project model
+     * @return a list for each project in the projectConfiguration that contains all java packages which are not 
+     * members in the other projects
+     */
+    public static List<SortedSet<IPackageFragment>> getNonDuplicatesJavaPackages(SPLevoProject projectConfiguration) {
+        List<SortedSet<IPackageFragment>> javaPackages = new ArrayList<SortedSet<IPackageFragment>>();
+        for (IProject project : getAllChosenProjects(projectConfiguration)) {
+            javaPackages.add(getJavaPackages(project));
+        }
+        removeDuplicates(javaPackages);
+        return javaPackages;
+    }
+    
+    private static void removeDuplicates(List<SortedSet<IPackageFragment>> javaPackages) {        
+        for (int i = 0; i < javaPackages.size(); i++) {
+            SortedSet<IPackageFragment> temp = new TreeSet<IPackageFragment>(javaPackages.get(i));
+            for (int j = 0; j < javaPackages.size(); j++) {
+                if (i == j) {
+                    continue;
+                }
+                javaPackages.get(i).removeAll(javaPackages.get(j));
+                javaPackages.get(j).removeAll(temp);
+            }
+        }
+    }   
+    
+    /**
      * Get all root packages which have to be shown in the tree.
-     * @param packagesTreeContentProvider tree content provider for packages
+     * @param contentProvider content provider for packages
      * @param javaPackages the java packages to find their root packages
      * @return Array with all root packages.
      */
-    public static List<IPackageFragment> getRootpackages(PackagesTreeContentProvider packagesTreeContentProvider, 
+    public static List<IPackageFragment> getRootpackages(IContentProvider contentProvider, 
             SortedSet<IPackageFragment> javaPackages) {
+        
         List<IPackageFragment> rootPackages = new ArrayList<IPackageFragment>();
-
+        if (!(contentProvider instanceof PackagesTreeContentProvider)) {
+            return rootPackages;
+        }
+        PackagesTreeContentProvider packagesTreeContentProvider = (PackagesTreeContentProvider) contentProvider;
         for (IPackageFragment javaPackage : javaPackages) {
             if (packagesTreeContentProvider.getParentPackage(javaPackage) == null) {
                 rootPackages.add(javaPackage);
@@ -80,20 +114,30 @@ public class PackageUtil {
         SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
 
         for (IProject project : getAllChosenProjects(projectConfiguration)) {
-            try {
-                if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-                    for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
-                        if (!packageFragment.getElementName().equals("")) {
-                            javaPackagesSet.add(packageFragment);
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                /*logger.error("Exception thrown during getting all java packages "
-                        + "which are in the class path of the chosen projects", e);*/
-            }
+            addPackage(project, javaPackagesSet);            
         }
         return javaPackagesSet;
+    }
+    
+    private static SortedSet<IPackageFragment> getJavaPackages(IProject project) {
+        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
+
+        addPackage(project, javaPackagesSet);
+        return javaPackagesSet;
+    }
+    
+    private static void addPackage(IProject project, SortedSet<IPackageFragment> javaPackagesSet) {
+        try {
+            if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+                for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
+                    if (!packageFragment.getElementName().equals("")) {
+                        javaPackagesSet.add(packageFragment);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            
+        }
     }
     
     /**

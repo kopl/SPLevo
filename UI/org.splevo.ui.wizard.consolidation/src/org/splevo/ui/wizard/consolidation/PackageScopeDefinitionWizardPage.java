@@ -59,7 +59,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     }
 
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(boolean visible) {   
         super.setVisible(visible);
 
         if (visible) {
@@ -71,6 +71,21 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
 
             packagesTreeViewer.setInput(list.toArray(new IPackageFragment[list.size()]));
         }
+    }
+    
+    @Override
+    public boolean canFlipToNextPage() {        
+        int count = 0;
+        List<SortedSet<IPackageFragment>> packages = PackageUtil.getNonDuplicatesJavaPackages(projectConfiguration);
+        for (SortedSet<IPackageFragment> s : packages) {
+            if (s.isEmpty()) {
+                count++;
+            }
+        }
+        if ((packages.size() - count) < 2) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -87,7 +102,8 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         createPackagesTreeViewer(container);
 
         setControl(container);
-    }
+        
+        }
     
     /**
      * Create a check box tree viewer for the packages.
