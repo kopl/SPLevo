@@ -233,7 +233,7 @@ public class SPLevoProjectEditor extends EditorPart {
         doSave(new NullProgressMonitor());
 
         processControlTab.enableButtonsIfInformationAvailable();
-
+        processControlTab.refreshViewer();
     }
 
     @Override

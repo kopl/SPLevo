@@ -13,10 +13,25 @@ package org.splevo.ui.dashboard;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -25,11 +40,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.ResourceManager;
 import org.mihalis.opal.header.Header;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
@@ -38,6 +57,7 @@ import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.OpenVPMListener;
 import org.splevo.ui.listeners.StartRefactoringListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
+import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 
 import com.google.common.collect.Iterables;
 
@@ -59,8 +79,12 @@ public class ProcessControlTab extends AbstractDashboardTab {
     private Button generateFMBtn;
 
     /** Button Open VPM. */
-    private Button openVPMBtn;    
-    
+    private Button openVPMBtn;
+
+    private TableViewer tableViewer;
+
+    private List<VPMModelReference> vpmInput;
+
     /**
      * Create the tab to handle the SPL profile configuration.
      * 
@@ -89,7 +113,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         TabItem tbtmProcessControl = new TabItem(tabFolder, SWT.NONE, tabIndex);
         tbtmProcessControl.setText("Process Control");
-        
+
         ScrolledComposite scrolledComposite = new ScrolledComposite(tabFolder, SWT.V_SCROLL);
         scrolledComposite.setExpandHorizontal(true);
         scrolledComposite.setExpandVertical(true);
@@ -99,20 +123,163 @@ public class ProcessControlTab extends AbstractDashboardTab {
         composite.setLayout(new GridLayout(1, false));
         composite.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
 
-        scrolledComposite.setContent(composite); 
-        
-        createHeader(composite);        
-        createActions(composite); 
-    } 
-    
-    
+        scrolledComposite.setContent(composite);
+
+        createHeader(composite);
+        createActions(composite);
+        createVPMTable(composite);
+    }
+
+    private void createVPMTable(Composite composite) {
+        Group vpmGroup = new Group(composite, SWT.FILL);
+        vpmGroup.setText("Variation Point Models");
+        vpmGroup.setLayout(new GridLayout(1, false));
+        vpmGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+        TableLayout tableLayout = new TableLayout();
+        tableLayout.addColumnData(new ColumnWeightData(10));
+        tableLayout.addColumnData(new ColumnWeightData(10));
+        tableLayout.addColumnData(new ColumnWeightData(10));
+        Table exampleTable = new Table(vpmGroup, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+        exampleTable.setLinesVisible(true);
+        exampleTable.setHeaderVisible(true);
+        exampleTable.setLayout(tableLayout);
+
+        createTable(exampleTable);
+
+    }
+
+    private void createTable(Table exampleTable) {
+        tableViewer = new TableViewer(exampleTable);
+        tableViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        tableViewer.getTable().setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+        TableViewerColumn vpmColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+        vpmColumn.getColumn().setText("VPM");
+        vpmColumn.getColumn().setResizable(false);
+        vpmColumn.setLabelProvider(new ColumnLabelProvider() {
+            @Override
+            public String getText(Object element) {
+                if (!(element instanceof VPMModelReference)) {
+                    return "";
+                }
+                VPMModelReference vpm = (VPMModelReference) element;
+                return FilenameUtils.getBaseName(vpm.getPath());
+            }
+        });
+        TableViewerColumn dateColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+        dateColumn.getColumn().setText("Date");
+        dateColumn.getColumn().setResizable(false);
+        dateColumn.setLabelProvider(new ColumnLabelProvider() {
+            @Override
+            public String getText(Object element) {
+                return "";
+            }
+        });
+        TableViewerColumn actionColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+        actionColumn.getColumn().setText("Action");
+        actionColumn.getColumn().setResizable(false);
+        actionColumn.setLabelProvider(new CellButtonLabelProvider());
+        tableViewer.setContentProvider(new ArrayContentProvider());
+        vpmInput = getSPLevoProject().getVpmModelReferences();
+        tableViewer.setInput(vpmInput);
+    }
+    /**
+     * A LabelProvider to display buttons and removing them if they are not needed anymore. 
+     */
+    private class CellButtonLabelProvider extends CellLabelProvider {
+        private Map<Object, Button> reverseButtons = new HashMap<Object, Button>();
+        private static final String VPM_DATA = "vpm_data";
+        private static final String BUTTON_EDITOR = "button_editor";
+
+        @Override
+        public void update(final ViewerCell cell) {
+
+            TableItem item = (TableItem) cell.getItem();
+
+            final Button button;
+
+            if (reverseButtons.containsKey(cell.getElement())) {
+                button = reverseButtons.get(cell.getElement());
+            } else {
+                button = new Button((Composite) cell.getViewerRow().getControl(), SWT.NONE);
+                button.setData(VPM_DATA, item.getData());
+                button.setText("Revert to this version");
+                button.addMouseListener(new MouseListener() {
+
+                    @Override
+                    public void mouseUp(MouseEvent event) {
+                        Shell shell = event.widget.getDisplay().getActiveShell();
+                        if (!(event.getSource() instanceof Button)) {
+                            return;
+                        }
+                        Button button = (Button) event.getSource();
+                        if (!(button.getData(VPM_DATA) instanceof VPMModelReference)) {
+                            return;
+                        }
+                        VPMModelReference vpm = (VPMModelReference) button.getData(VPM_DATA);
+                        boolean confirmed = MessageDialog
+                                .openQuestion(shell, "Switch Back VPM Version",
+                                        String.format("You want to switch back to %s, which removes all later versions. "
+                                                + "Do you want to continue?", FilenameUtils.getBaseName(vpm.getPath())));
+                        if (confirmed) {
+                            VPMUIUtil.switchBackVPMVersion(getSPLevoProject(), vpm);
+                            tableViewer.setInput(vpmInput);
+                            tableViewer.refresh();
+                            disposeButtons();
+                        }
+                    }
+
+                    private void disposeButtons() {
+                        for (Button button : reverseButtons.values()) {
+                            if (button.isDisposed()) {
+                                continue;
+                            }
+                            Object o = button.getData(VPM_DATA);
+                            if (!vpmInput.contains(o)) {
+                                TableEditor e = (TableEditor) button.getData(BUTTON_EDITOR);
+                                e.getEditor().dispose();
+                                e.dispose();
+                                reverseButtons.remove(cell.getElement());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void mouseDown(MouseEvent e) {
+                    }
+
+                    @Override
+                    public void mouseDoubleClick(MouseEvent e) {
+                    }
+                });
+                reverseButtons.put(cell.getElement(), button);
+            }
+            TableEditor editor = new TableEditor(item.getParent());
+            editor.grabHorizontal = true;
+            editor.grabVertical = true;
+            editor.setEditor(button, item, cell.getColumnIndex());
+            button.setData(BUTTON_EDITOR, editor);
+            editor.layout();
+        }
+    }
+
+    /**
+     * Refreshes the table after data changes.
+     */
+    public void refreshViewer() {
+        if (tableViewer != null) {
+            tableViewer.refresh();
+            tableViewer.getControl().getParent().layout();
+            tableViewer.getControl().getParent().getParent().layout();            
+        }        
+    }
+
     private void createActions(Composite composite) {
-        
+
         Group g = new Group(composite, SWT.FILL);
         g.setText("Actions");
         g.setLayout(new GridLayout(9, false));
         g.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
-        
+
         Composite filler1 = new Composite(g, SWT.NONE);
         GridData layoutData = new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1);
         layoutData.heightHint = 0;
@@ -134,9 +301,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         initVpmBtn = new Button(g, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
         initVpmBtn.setText("Init\nVPM");
-        initVpmBtn.setToolTipText("Initializes the variation point model."
-                + " First, the differences between the consolidation projects are calculated."
-                + " Afterwards, the differences are stored in variation points and variation point groups.");
+        initVpmBtn.setToolTipText("Init VPM");
         getGridDataForButtons(initVpmBtn);
 
         addActivityFlowButton(g);
@@ -144,8 +309,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         analyzeVPMBtn = new Button(g, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
         analyzeVPMBtn.setText("Refine\nVPM");
-        analyzeVPMBtn.setToolTipText("Refine the variation point model by grouping and merging variation points."
-                + " You can select various analyses that suggest such refinements.");
+        analyzeVPMBtn.setToolTipText("Refine VPM");
         getGridDataForButtons(analyzeVPMBtn);
 
         addActivityFlowButton(g);
@@ -153,10 +317,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         startRefactoringBtn = new Button(g, SWT.WRAP);
         startRefactoringBtn.addMouseListener(new StartRefactoringListener(getSplevoProjectEditor()));
         startRefactoringBtn.setText("Refactor\nCopies");
-        startRefactoringBtn
-                .setToolTipText("Refactor the copies based on the current variation point model."
-                        + " The variation points are integrated into the leading project"
-                        + " The refactoring mechanisms are chosen based on the characteristics of the variation point.");
+        startRefactoringBtn.setToolTipText("Refactor");
         getGridDataForButtons(startRefactoringBtn);
 
         addActivityFlowButton(g);
@@ -176,7 +337,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
         openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
         openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
         openVPMBtn.setAlignment(SWT.CENTER);
-        openVPMBtn.setToolTipText("Opens the most recent variation point model for this project.");
     }
 
     private void getGridDataForButtons(Button button) {
@@ -221,8 +381,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
     private boolean vpmAvailable() {
         SPLevoProject splevoProject = getSPLevoProject();
         if (splevoProject.getVpmModelReferences().size() > 0) {
-            String vpmPath = WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(Iterables.getLast(splevoProject
-                    .getVpmModelReferences()).getPath());
+            String vpmPath = WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(Iterables.getLast(
+                    splevoProject.getVpmModelReferences()).getPath());
             return new File(vpmPath).canRead();
         }
         return false;
@@ -253,12 +413,12 @@ public class ProcessControlTab extends AbstractDashboardTab {
             button.setEnabled(false);
         }
     }
-    
+
     private void createHeader(Composite composite) {
         final Header header = new Header(composite, SWT.NONE);
         header.setTitle("SPLevo Dashboard");
         header.setImage(ResourceManager.getPluginImage(SPLevoUIPlugin.PLUGIN_ID, "icons/kopl_dash.png"));
-        header.setDescription("Overview and controls for the consolidation process.");
+        header.setDescription("Control the consolidation process.");
         header.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
     }
 }
