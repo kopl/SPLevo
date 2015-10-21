@@ -147,7 +147,25 @@ public class JaMoPPDiffer implements Differ {
     private static final String LABEL = "JaMoPP Java Differ";
     private static final String ID = "org.splevo.jamopp.differ";
     private static Logger logger = Logger.getLogger(JaMoPPDiffer.class);
+    private final JaMoPPSoftwareModelExtractor extractor;
 
+    /**
+     * Constructs a new JaMoPPDiffer.
+     */
+    public JaMoPPDiffer() {
+        this(new JaMoPPSoftwareModelExtractor());
+    }
+
+    /**
+     * Constructs a new JaMoPPDiffer with the given software model extractor.
+     * 
+     * @param extractor
+     *            The extractor to be used during the diffing.
+     */
+    public JaMoPPDiffer(JaMoPPSoftwareModelExtractor extractor) {
+        this.extractor = extractor;
+    }
+    
     /**
      * Load the source models from the according directories and perform the difference analysis of
      * the loaded {@link ResourceSet}s. <br>
@@ -485,7 +503,6 @@ public class JaMoPPDiffer implements Differ {
      */
     private ResourceSet loadResourceSetRecursively(java.net.URI baseDirectory, List<String> ignoreFiles) {
 
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
         List<String> projectPaths = new ArrayList<String>();
         projectPaths.add((new File(baseDirectory).getAbsolutePath()));
         try {

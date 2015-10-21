@@ -291,7 +291,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         initResourceSet(rs, sourceModelPaths, loadLayoutInformation);
     }
     
-    private static void initResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
+    private void initResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
         final Boolean disableLayoutOption = loadLayoutInformation ? Boolean.FALSE : Boolean.TRUE;
 
         final Map<Object, Object> options = rs.getLoadOptions();
@@ -305,12 +305,25 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
         Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory,
-                sourceModelPaths, JavaClasspath.get(rs));
+                sourceModelPaths, determineClasspath(rs, sourceModelPaths));
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", cachedJaMoPPFactory);
         // DesignDecision No caching for byte code resources to improve performance
         factoryMap.put("class", originalFactory);
+    }
+
+    /**
+     * Determines the classpath to be used for the given resource set and source model paths.
+     * 
+     * @param rs
+     *            The resource set.
+     * @param sourceModelPaths
+     *            The source model paths.
+     * @return The classpath to be used.
+     */
+    protected JavaClasspath determineClasspath(ResourceSet rs, Iterable<String> sourceModelPaths) {
+        return JavaClasspath.get(rs);
     }
 
 }

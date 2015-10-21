@@ -16,15 +16,22 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.JavaClasspath;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.analyzer.programdependency.ConfigurationBuilder;
@@ -98,7 +105,7 @@ public final class TestUtil {
     public static VPMGraph prepareVPMGraph(String relativePathA, String relativePathB) throws Exception {
         String pathA = new File(relativePathA).getCanonicalPath();
         String pathB = new File(relativePathB).getCanonicalPath();
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractorWithJarHandling();
         ResourceSet setA = extractor.extractSoftwareModel(Lists.newArrayList(pathA), new NullProgressMonitor());
         ResourceSet setB = extractor.extractSoftwareModel(Lists.newArrayList(pathB), new NullProgressMonitor());
 
@@ -244,5 +251,38 @@ public final class TestUtil {
         }
 
         return analyzer;
+    }
+    
+    /**
+     * Modified software model extractor that can handle jar files in the project directory.
+     */
+    private static class JaMoPPSoftwareModelExtractorWithJarHandling extends JaMoPPSoftwareModelExtractor {
+        
+        private static final Logger LOGGER = Logger.getLogger(JaMoPPSoftwareModelExtractorWithJarHandling.class);
+
+        @Override
+        protected JavaClasspath determineClasspath(ResourceSet rs, Iterable<String> sourceModelPaths) {
+            JavaClasspath classpath = super.determineClasspath(rs, sourceModelPaths);
+            for (String jarFilePath : getAllJarFiles(sourceModelPaths)) {
+                classpath.registerClassifierJar(URI.createFileURI(jarFilePath));
+            }
+            return classpath;
+        }
+
+        private List<String> getAllJarFiles(Iterable<String> projectPaths) {
+            List<String> jarPaths = Lists.newArrayList();
+            for (String projectPath : projectPaths) {
+                Collection<File> jarFiles = FileUtils.listFiles(new File(projectPath), new String[] { "jar" }, true);
+                for (File jarPath : jarFiles) {
+                    try {
+                        jarPaths.add(jarPath.getCanonicalPath());
+                    } catch (IOException e) {
+                        LOGGER.warn("Unable to access jar file: " + jarPath);
+                    }
+                }
+            }
+            return jarPaths;
+        }
+
     }
 }

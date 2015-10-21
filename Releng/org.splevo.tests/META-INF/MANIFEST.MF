@@ -9,6 +9,8 @@ Require-Bundle: org.splevo.diffing;bundle-version="1.0.0",
  org.splevo.vpm;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15",
  org.splevo.vpm.analyzer;bundle-version="1.0.0",
- org.splevo.jamopp.vpm.builder;bundle-version="1.0.0"
+ org.splevo.jamopp.vpm.builder;bundle-version="1.0.0",
+ org.splevo.jamopp.extraction,
+ org.apache.commons.io
 Export-Package: org.splevo.tests
 Import-Package: org.junit
