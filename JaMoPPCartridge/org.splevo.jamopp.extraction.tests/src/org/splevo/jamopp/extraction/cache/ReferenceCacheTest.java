@@ -153,8 +153,13 @@ public class ReferenceCacheTest {
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, cacheFileDirs, javaClasspath,
-                jarPaths));
+        
+        for (String jarPath : jarPaths) {
+            javaClasspath.registerClassifierJar(URI.createFileURI(jarPath));
+        }
+
+        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, cacheFileDirs,
+                javaClasspath));
 
         return rs;
     }

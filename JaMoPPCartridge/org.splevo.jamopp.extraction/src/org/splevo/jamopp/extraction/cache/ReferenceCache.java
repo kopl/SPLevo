@@ -18,7 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -80,9 +79,6 @@ public class ReferenceCache {
     /** The cache data object to work with. */
     private ReferenceCacheData cacheData = new ReferenceCacheData();
 
-    /** The java class path to enhance with the cached data. */
-    private JavaClasspath javaClasspath = null;
-
     /**
      * Constructor to set a list of directories containing cache files. Within these directories,
      * files with the name {@link #CACHE_FILE_NAME} are searched.
@@ -95,27 +91,7 @@ public class ReferenceCache {
      *            The java class path to enhance with the cached data
      */
     public ReferenceCache(List<String> cacheFileDirectories, JavaClasspath javaClasspath) {
-        this(cacheFileDirectories, javaClasspath, new ArrayList<String>());
-    }
-
-    /**
-     * Constructor to set a list of directories containing cache files. Within these directories,
-     * files with the name {@link #CACHE_FILE_NAME} are searched.
-     * 
-     * If a new file must be created, this will be done in the first directory of the list.
-     * 
-     * @param cacheFileDirectories
-     *            A list of absolute paths to the directories containing cache files.
-     * @param javaClasspath
-     *            The java class path to enhance with the cached data
-     * @param jarPaths
-     *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
-     *            stored in the cache.
-     */
-    public ReferenceCache(List<String> cacheFileDirectories, JavaClasspath javaClasspath, List<String> jarPaths) {
         this.cacheFileDirectories = cacheFileDirectories;
-        this.javaClasspath = javaClasspath;
-        cacheData.getJarFilePaths().addAll(jarPaths);
         init();
     }
 
@@ -134,11 +110,6 @@ public class ReferenceCache {
                 }
             }
         }
-
-        for (String jarPath : cacheData.getJarFilePaths()) {
-            javaClasspath.registerClassifierJar(URI.createFileURI(jarPath));
-        }
-        logger.info("Registered " + cacheData.getJarFilePaths().size() + " jar files from cache.");
     }
 
     /**

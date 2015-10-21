@@ -14,10 +14,8 @@ package org.splevo.jamopp.extraction.cache;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * The data container of the reference cache.
@@ -33,9 +31,6 @@ public class ReferenceCacheData implements Serializable {
      */
     private Map<String, LinkedHashMap<String, String>> resourceToTargetURIListMap = Maps.newLinkedHashMap();
 
-    /** The absolute paths to jar files to register in the JavaClasspath. */
-    private Set<String> jarFilePaths = Sets.newLinkedHashSet();
-
     /**
      * Access to the resource reference map.
      *
@@ -43,15 +38,6 @@ public class ReferenceCacheData implements Serializable {
      */
     public Map<String, LinkedHashMap<String, String>> getResourceToTargetURIListMap() {
         return resourceToTargetURIListMap;
-    }
-
-    /**
-     * Access the list of jar files to be registered.
-     *
-     * @return The path list, never null.
-     */
-    public Set<String> getJarFilePaths() {
-        return jarFilePaths;
     }
 
     /**
@@ -63,6 +49,5 @@ public class ReferenceCacheData implements Serializable {
      */
     public void merge(ReferenceCacheData mergeInCacheData) {
         resourceToTargetURIListMap.putAll(mergeInCacheData.getResourceToTargetURIListMap());
-        jarFilePaths.addAll(mergeInCacheData.getJarFilePaths());
     }
 }

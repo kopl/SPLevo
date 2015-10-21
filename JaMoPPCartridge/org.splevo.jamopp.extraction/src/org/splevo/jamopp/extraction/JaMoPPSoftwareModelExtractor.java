@@ -105,8 +105,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         // TODO: Refactor Code for more intuitive
         // loading-resolving-caching-workflow
-        List<String> jarFiles = getAllJarFiles(projectPaths);
-        ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath, jarFiles, extractLayoutInfo);
+        ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath, extractLayoutInfo);
 
         List<Resource> resources = Lists.newArrayList();
 
@@ -115,7 +114,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             resources.addAll(projectResources);
         }
 
-        logger.info(String.format("%d Java and %d Jar Files added to resource set", resources.size(), jarFiles.size()));
+        logger.info(String.format("%d Java files added to resource set", resources.size()));
 
         // trigger the resource resolving as soon as all resources are parsed.
         ReferenceCache cache = getReferenceCache(targetResourceSet);
@@ -151,34 +150,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             throw new SoftwareModelExtractionException("Failed to parse project resources. Project: " + projectPath, e);
         }
         return projectResources;
-    }
-
-    /**
-     * Get the list of paths of the involved jar files of all projects.
-     *
-     * @param projectPaths
-     *            The project base directories.
-     * @return The list of jar files found and accessible.
-     */
-    private List<String> getAllJarFiles(List<String> projectPaths) {
-
-        List<String> jarPaths = Lists.newArrayList();
-
-        for (String projectPath : projectPaths) {
-            File projectDirectory = new File(projectPath);
-            Collection<File> jarFiles = FileUtils.listFiles(projectDirectory, new String[] { "jar" }, true);
-            for (File jarPath : jarFiles) {
-                if (jarPath.exists()) {
-                    try {
-                        jarPaths.add(jarPath.getCanonicalPath());
-                    } catch (IOException e) {
-                        logger.warn("Unable to access jar file: " + jarPath);
-                    }
-                }
-            }
-        }
-
-        return jarPaths;
     }
 
     /**
@@ -284,24 +255,24 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Setup the JaMoPP resource set and prepare the parsing options for the java resource type.
-     *
+     * 
      * The jar files contained in the extracted projects are registered to the class path as well.
-     *
+     * 
      * @param sourceModelDirectory
      *            The path to the directory assigned to the extracted copy.
-     * @param jarPaths
-     *            Absolute paths to the jar files of the source project.
-     *
+     * @param extractLayoutInfo
+     *            Flag for extraction of layout information. True means that layout information is
+     *            extracted.
      * @return The initialized resource set.
      */
-    private ResourceSet setUpResourceSet(String sourceModelDirectory, List<String> jarPaths, boolean extractLayoutInfo) {
+    private ResourceSet setUpResourceSet(String sourceModelDirectory, boolean extractLayoutInfo) {
         ArrayList<String> directories = Lists.newArrayList();
         if (sourceModelDirectory != null) {
             directories.add(sourceModelDirectory);
         }
         
         ResourceSet rs = new SPLevoResourceSet();
-        initResourceSet(rs, directories, extractLayoutInfo, jarPaths);
+        initResourceSet(rs, directories, extractLayoutInfo);
         return rs;
     }
 
@@ -317,11 +288,10 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     @Override
     public void prepareResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
-        initResourceSet(rs, sourceModelPaths, loadLayoutInformation, null);
+        initResourceSet(rs, sourceModelPaths, loadLayoutInformation);
     }
     
-    private static void initResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation,
-            List<String> jarPaths) {
+    private static void initResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
         final Boolean disableLayoutOption = loadLayoutInformation ? Boolean.FALSE : Boolean.TRUE;
 
         final Map<Object, Object> options = rs.getLoadOptions();
@@ -335,7 +305,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
         Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory,
-                sourceModelPaths, JavaClasspath.get(rs), jarPaths);
+                sourceModelPaths, JavaClasspath.get(rs));
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", cachedJaMoPPFactory);

@@ -18,8 +18,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.JavaClasspath;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
-import com.google.common.collect.Lists;
-
 /**
  * Factory for creating cache enabled JaMoPP java and class file resource.
  */
@@ -43,31 +41,8 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl implements Resource
      */
     public JavaSourceOrClassFileResourceCachingFactoryImpl(Resource.Factory factory, List<String> cacheDirectories,
             JavaClasspath javaClasspath) {
-        this(factory, cacheDirectories, javaClasspath, null);
-    }
-
-    /**
-     * Constructor to set the base directory for internal reference cache.
-     * 
-     * @param factory
-     *            The resource factory to which the requests are forwarded.
-     * @param cacheDirectories
-     *            The absolute paths of directories containing cache files.
-     * @param javaClasspath
-     *            The class path to enhance. Should be the same as associated with the resource set
-     *            the resource factory belongs to.
-     * @param jarPaths
-     *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
-     *            stored in the cache.
-     */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(Resource.Factory factory, List<String> cacheDirectories,
-            JavaClasspath javaClasspath, List<String> jarPaths) {
         this.factory = factory;
-        List<String> jarPathsForReferenceCache = jarPaths;
-        if (jarPaths == null) {
-            jarPathsForReferenceCache = Lists.newArrayList();
-        }
-        referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPathsForReferenceCache);
+        referenceCache = new ReferenceCache(cacheDirectories, javaClasspath);
     }
 
     /**
