@@ -106,15 +106,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         // TODO: Refactor Code for more intuitive
         // loading-resolving-caching-workflow
         ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath, extractLayoutInfo);
-
-        List<Resource> resources = Lists.newArrayList();
-
-        for (String projectPath : projectPaths) {
-            List<Resource> projectResources = loadProjectJavaFiles(targetResourceSet, projectPath);
-            resources.addAll(projectResources);
-        }
-
-        logger.info(String.format("%d Java files added to resource set", resources.size()));
+        List<Resource> resources = loadProjectJavaFiles(targetResourceSet, projectPaths);
 
         // trigger the resource resolving as soon as all resources are parsed.
         ReferenceCache cache = getReferenceCache(targetResourceSet);
@@ -125,6 +117,29 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         triggerCacheSave(targetResourceSet);
 
         return targetResourceSet;
+    }
+   
+    /**
+     * Load all java files found in the projects into a ResourceSet and return the list of created
+     * resources.
+     *
+     * @param targetResourceSet
+     *            The preconfigured resource set to load to.
+     * @param projectPaths
+     *            The base paths of the projects containing the java files.
+     * @return The list of newly created resources.
+     * @throws SoftwareModelExtractionException
+     *             thrown if a java file could not be parsed successfully.
+     */
+    protected List<Resource> loadProjectJavaFiles(ResourceSet targetResourceSet, Iterable<String> projectPaths)
+            throws SoftwareModelExtractionException {
+        List<Resource> resources = Lists.newArrayList();
+        for (String projectPath : projectPaths) {
+            List<Resource> projectResources = loadProjectJavaFiles(targetResourceSet, projectPath);
+            resources.addAll(projectResources);
+        }
+        logger.info(String.format("%d Java files added to resource set", resources.size()));
+        return resources;
     }
 
     /**
@@ -305,25 +320,14 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
         Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory,
-                sourceModelPaths, determineClasspath(rs, sourceModelPaths));
+                sourceModelPaths);
+        
+        JavaClasspath.get(rs);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", cachedJaMoPPFactory);
         // DesignDecision No caching for byte code resources to improve performance
         factoryMap.put("class", originalFactory);
-    }
-
-    /**
-     * Determines the classpath to be used for the given resource set and source model paths.
-     * 
-     * @param rs
-     *            The resource set.
-     * @param sourceModelPaths
-     *            The source model paths.
-     * @return The classpath to be used.
-     */
-    protected JavaClasspath determineClasspath(ResourceSet rs, Iterable<String> sourceModelPaths) {
-        return JavaClasspath.get(rs);
     }
 
 }

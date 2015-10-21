@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.emftext.language.java.JavaClasspath;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
 /**
@@ -35,14 +34,10 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl implements Resource
      *            The resource factory to which the requests are forwarded.
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
-     * @param javaClasspath
-     *            The class path to enhance. Should be the same as associated with the resource set
-     *            the resource factory belongs to.
      */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(Resource.Factory factory, List<String> cacheDirectories,
-            JavaClasspath javaClasspath) {
+    public JavaSourceOrClassFileResourceCachingFactoryImpl(Resource.Factory factory, List<String> cacheDirectories) {
         this.factory = factory;
-        referenceCache = new ReferenceCache(cacheDirectories, javaClasspath);
+        referenceCache = new ReferenceCache(cacheDirectories);
     }
 
     /**

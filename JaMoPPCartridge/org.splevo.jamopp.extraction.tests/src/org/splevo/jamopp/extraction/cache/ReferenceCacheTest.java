@@ -158,8 +158,7 @@ public class ReferenceCacheTest {
             javaClasspath.registerClassifierJar(URI.createFileURI(jarPath));
         }
 
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, cacheFileDirs,
-                javaClasspath));
+        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, cacheFileDirs));
 
         return rs;
     }

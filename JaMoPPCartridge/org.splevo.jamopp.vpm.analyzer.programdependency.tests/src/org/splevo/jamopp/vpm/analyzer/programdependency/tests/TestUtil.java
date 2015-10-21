@@ -30,8 +30,10 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.JavaClasspath;
+import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.analyzer.programdependency.ConfigurationBuilder;
@@ -48,7 +50,9 @@ import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Predicates;
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multiset;
@@ -259,14 +263,16 @@ public final class TestUtil {
     private static class JaMoPPSoftwareModelExtractorWithJarHandling extends JaMoPPSoftwareModelExtractor {
         
         private static final Logger LOGGER = Logger.getLogger(JaMoPPSoftwareModelExtractorWithJarHandling.class);
-
+        
         @Override
-        protected JavaClasspath determineClasspath(ResourceSet rs, Iterable<String> sourceModelPaths) {
-            JavaClasspath classpath = super.determineClasspath(rs, sourceModelPaths);
-            for (String jarFilePath : getAllJarFiles(sourceModelPaths)) {
+        protected List<Resource> loadProjectJavaFiles(ResourceSet targetResourceSet, Iterable<String> projectPaths)
+                throws SoftwareModelExtractionException {
+            JavaClasspath classpath = (JavaClasspath) Iterables.find(targetResourceSet.eAdapters(),
+                    Predicates.instanceOf(JavaClasspath.class));
+            for (String jarFilePath : getAllJarFiles(projectPaths)) {
                 classpath.registerClassifierJar(URI.createFileURI(jarFilePath));
             }
-            return classpath;
+            return super.loadProjectJavaFiles(targetResourceSet, projectPaths);
         }
 
         private List<String> getAllJarFiles(Iterable<String> projectPaths) {

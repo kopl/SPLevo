@@ -87,10 +87,8 @@ public class ReferenceCache {
      * 
      * @param cacheFileDirectories
      *            A list of absolute paths to the directories containing cache files.
-     * @param javaClasspath
-     *            The java class path to enhance with the cached data
      */
-    public ReferenceCache(List<String> cacheFileDirectories, JavaClasspath javaClasspath) {
+    public ReferenceCache(List<String> cacheFileDirectories) {
         this.cacheFileDirectories = cacheFileDirectories;
         init();
     }
