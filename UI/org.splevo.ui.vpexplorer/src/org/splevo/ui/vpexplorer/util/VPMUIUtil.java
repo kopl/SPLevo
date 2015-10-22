@@ -134,11 +134,13 @@ public final class VPMUIUtil {
      * 
      * @param splevoProject The SPLevo project for which the VPM version shall be switched.
      * @param vpmReference The reference to the VPM as noted in the project file.
+     * @return the switch back job
      */
-    public static void switchBackVPMVersion(final SPLevoProject splevoProject, final VPMModelReference vpmReference) {
+    public static Job switchBackVPMVersion(final SPLevoProject splevoProject, final VPMModelReference vpmReference) {
         Job switchBackJob = new SwitchBackVPMJob(splevoProject, vpmReference);
         switchBackJob.setUser(true);
         switchBackJob.schedule();
+        return switchBackJob;
     }
 
     /**

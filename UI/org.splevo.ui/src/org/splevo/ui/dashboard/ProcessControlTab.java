@@ -22,24 +22,28 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -81,9 +85,14 @@ public class ProcessControlTab extends AbstractDashboardTab {
     /** Button Open VPM. */
     private Button openVPMBtn;
 
+    /** Shows the VPMs. */
     private TableViewer tableViewer;
 
+    /** Input of the tableViewer. */
     private List<VPMModelReference> vpmInput;
+    
+    /** The reverse buttons in the VPM Table. */
+    private Map<Object, Button> reverseButtons;
 
     /**
      * Create the tab to handle the SPL profile configuration.
@@ -131,30 +140,66 @@ public class ProcessControlTab extends AbstractDashboardTab {
     }
 
     private void createVPMTable(Composite composite) {
-        Group vpmGroup = new Group(composite, SWT.FILL);
+        final Group vpmGroup = new Group(composite, SWT.FILL);
         vpmGroup.setText("Variation Point Models");
         vpmGroup.setLayout(new GridLayout(1, false));
         vpmGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
-        TableLayout tableLayout = new TableLayout();
-        tableLayout.addColumnData(new ColumnWeightData(10));
-        tableLayout.addColumnData(new ColumnWeightData(10));
-        tableLayout.addColumnData(new ColumnWeightData(10));
-        Table exampleTable = new Table(vpmGroup, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
-        exampleTable.setLinesVisible(true);
-        exampleTable.setHeaderVisible(true);
-        exampleTable.setLayout(tableLayout);
+        
+        final Table table = new Table(vpmGroup, SWT.BORDER | SWT.V_SCROLL);
+        table.setLinesVisible(true);
+        table.setHeaderVisible(true);
+        //set row height
+        table.addListener(SWT.MeasureItem, new Listener() {
+            public void handleEvent(Event event) {
+                event.height = 25;
+             }
+          });
+        reverseButtons = new HashMap<Object, Button>();        
+        
+        vpmGroup.addControlListener(new ControlAdapter() {
+            @Override
+            public void controlResized(ControlEvent e) {
+                Rectangle area = vpmGroup.getClientArea();
+                Point oldSize = table.getSize();
+                int buttonPrefferedWidth = -1;
+                if (reverseButtons != null && reverseButtons.values().toArray().length > 0) {
+                    buttonPrefferedWidth = ((Button) reverseButtons.values().toArray()[0]).computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+                }
+                if (oldSize.x > area.width) {
+                  // table is getting smaller so make the columns 
+                  // smaller first and then resize the table to
+                  // match the client area width
+                    setColumnSize(buttonPrefferedWidth);
+                    table.setSize(area.width, area.height);
+                } else {
+                  // table is getting bigger so make the table 
+                  // bigger first and then make the columns wider
+                  // to match the client area width                    
+                    table.setSize(area.width, area.height);
+                    setColumnSize(buttonPrefferedWidth);
+                    
+                }
+              }
+            private void setColumnSize(int buttonPrefferedWidth) {
+                table.getColumns()[0].pack();
+                table.getColumns()[1].pack();
+                if (buttonPrefferedWidth < 0) {
+                    table.getColumns()[2].pack();
+                } else {
+                    table.getColumns()[2].setWidth(buttonPrefferedWidth);                    
+                }
+            }
+            });
 
-        createTable(exampleTable);
+        createTable(table);
 
     }
 
     private void createTable(Table exampleTable) {
         tableViewer = new TableViewer(exampleTable);
-        tableViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         tableViewer.getTable().setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
         TableViewerColumn vpmColumn = new TableViewerColumn(tableViewer, SWT.NONE);
         vpmColumn.getColumn().setText("VPM");
-        vpmColumn.getColumn().setResizable(false);
         vpmColumn.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -167,7 +212,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
         });
         TableViewerColumn dateColumn = new TableViewerColumn(tableViewer, SWT.NONE);
         dateColumn.getColumn().setText("Date");
-        dateColumn.getColumn().setResizable(false);
         dateColumn.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -176,20 +220,20 @@ public class ProcessControlTab extends AbstractDashboardTab {
         });
         TableViewerColumn actionColumn = new TableViewerColumn(tableViewer, SWT.NONE);
         actionColumn.getColumn().setText("Action");
-        actionColumn.getColumn().setResizable(false);
         actionColumn.setLabelProvider(new CellButtonLabelProvider());
+        
         tableViewer.setContentProvider(new ArrayContentProvider());
         vpmInput = getSPLevoProject().getVpmModelReferences();
         tableViewer.setInput(vpmInput);
     }
+    
     /**
      * A LabelProvider to display buttons and removing them if they are not needed anymore. 
      */
     private class CellButtonLabelProvider extends CellLabelProvider {
-        private Map<Object, Button> reverseButtons = new HashMap<Object, Button>();
         private static final String VPM_DATA = "vpm_data";
         private static final String BUTTON_EDITOR = "button_editor";
-
+        
         @Override
         public void update(final ViewerCell cell) {
 
@@ -221,7 +265,10 @@ public class ProcessControlTab extends AbstractDashboardTab {
                                         String.format("You want to switch back to %s, which removes all later versions. "
                                                 + "Do you want to continue?", FilenameUtils.getBaseName(vpm.getPath())));
                         if (confirmed) {
-                            VPMUIUtil.switchBackVPMVersion(getSPLevoProject(), vpm);
+                            try {
+                                VPMUIUtil.switchBackVPMVersion(getSPLevoProject(), vpm).join();
+                            } catch (InterruptedException e) {                               
+                            }
                             tableViewer.setInput(vpmInput);
                             tableViewer.refresh();
                             disposeButtons();
@@ -269,7 +316,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         if (tableViewer != null) {
             tableViewer.refresh();
             tableViewer.getControl().getParent().layout();
-            tableViewer.getControl().getParent().getParent().layout();            
+            tableViewer.getControl().getParent().getParent().layout();  
         }        
     }
 
