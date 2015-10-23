@@ -15,17 +15,13 @@ package org.splevo.ui.vpexplorer.featureoutline;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.contexts.IContextActivation;
-import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
+import org.splevo.ui.vpexplorer.explorer.KeyFocusListener;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.ui.vpexplorer.featureoutline.actions.NoVariabilityMechanismAction;
 import org.splevo.ui.vpexplorer.featureoutline.actions.ShowVariantAction;
@@ -94,23 +90,7 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
         IToolBarManager toolBar = actionBars.getToolBarManager();
         toolBar.add(new NoVariabilityMechanismAction(this));    
         toolBar.add(new ShowVariantAction(this));    
-        FocusListener focusListener = new FocusListener() {
-            private IContextActivation activation;
-            
-            @Override
-            public void focusGained(FocusEvent e) {
-                activation = ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class))
-                        .activateContext(CONTEXT_ID);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class))
-                        .deactivateContext(activation);              
-            }          
-            
-        };        
-        this.getCommonViewer().getTree().addFocusListener(focusListener);
+        this.getCommonViewer().getTree().addFocusListener(new KeyFocusListener(CONTEXT_ID));
     }
 
     @Override

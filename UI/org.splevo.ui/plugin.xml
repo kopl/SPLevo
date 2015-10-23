@@ -720,5 +720,23 @@
           file="contexts.xml">
     </contexts>
  </extension>
+ <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            id="org.splevo.ui.unified.context"
+            name="uniffied context"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>
+ </extension>
+ 
+ <extension
+        point="org.eclipse.ui.bindings">         
+     <key
+            commandId="org.splevo.ui.commands.openunifieddiffsourcelocation"
+            contextId="org.splevo.ui.unified.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F3">
+      </key>
+  </extension>
 
 </plugin>

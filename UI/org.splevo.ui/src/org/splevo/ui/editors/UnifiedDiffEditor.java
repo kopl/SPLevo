@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel;
+import org.splevo.ui.vpexplorer.explorer.KeyFocusListener;
 
 /**
  * This class represents a text editor which visualizes an unified difference.
@@ -26,6 +27,8 @@ import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel;
 public class UnifiedDiffEditor extends TextEditor {
     /** The Logger instance */
     private static final Logger LOGGER = Logger.getLogger(UnifiedDiffEditor.class);
+    
+    private static final String CONTEXT_ID = "org.splevo.ui.unified.context";
 
     /** The editor input */
     private UnifiedDiffEditorInput input;
@@ -42,6 +45,8 @@ public class UnifiedDiffEditor extends TextEditor {
                 javaTextTools.getColorManager(), JavaPlugin.getDefault().getCombinedPreferenceStore(), this,
                 IJavaPartitions.JAVA_PARTITIONING);
         setSourceViewerConfiguration(sourceViewerConfiguration);
+        
+        
     }
 
     @Override
@@ -111,9 +116,10 @@ public class UnifiedDiffEditor extends TextEditor {
         } else {
             throw new RuntimeException("The editor input of the UnifiedDiffEditor instance is not of type "
                     + "UnifiedDiffEditorInput but of type " + input.getClass().getSimpleName() + ".");
-        }
+        }        
+        this.getViewer().getTextWidget().addFocusListener(new KeyFocusListener(CONTEXT_ID));
     }
-
+    
     @Override
     protected IVerticalRuler createVerticalRuler() {
         // main purpose of this is to get a reference to the vertical ruler object
