@@ -160,7 +160,9 @@ public class VPMRefinementService {
             if (!vp.getGroup().equals(survivingGroup)) {
                 VariationPointGroup oldGroup = vp.getGroup();
                 vp.setGroup(survivingGroup);
-                vpm.getVariationPointGroups().remove(oldGroup);
+                if (oldGroup.getVariationPoints().isEmpty()) {
+                    vpm.getVariationPointGroups().remove(oldGroup);                    
+                }
             }
         }
         
