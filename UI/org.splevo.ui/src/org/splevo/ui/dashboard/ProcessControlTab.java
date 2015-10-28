@@ -12,12 +12,16 @@
 package org.splevo.ui.dashboard;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -30,6 +34,8 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
@@ -49,6 +55,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.ResourceManager;
 import org.mihalis.opal.header.Header;
 import org.splevo.project.SPLevoProject;
@@ -56,12 +63,16 @@ import org.splevo.project.VPMModelReference;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
+import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.OpenVPMListener;
 import org.splevo.ui.listeners.StartRefactoringListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
+import org.splevo.ui.listeners.WorkflowListenerUtil;
 import org.splevo.ui.vpexplorer.util.VPMUIUtil;
+import org.splevo.ui.workflow.BuildSPLWorkflowConfiguration;
+import org.splevo.ui.workflow.SnapshotSPLWorkflowDelegate;
 
 import com.google.common.collect.Iterables;
 
@@ -90,7 +101,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
     /** Input of the tableViewer. */
     private List<VPMModelReference> vpmInput;
-    
+
     /** The reverse buttons in the VPM Table. */
     private Map<Object, Button> reverseButtons;
 
@@ -137,6 +148,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         createHeader(composite);
         createActions(composite);
         createVPMTable(composite);
+        createSnapshot(composite);
     }
 
     private void createVPMTable(Composite composite) {
@@ -144,18 +156,18 @@ public class ProcessControlTab extends AbstractDashboardTab {
         vpmGroup.setText("Variation Point Models");
         vpmGroup.setLayout(new GridLayout(1, false));
         vpmGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
-        
+
         final Table table = new Table(vpmGroup, SWT.BORDER | SWT.V_SCROLL);
         table.setLinesVisible(true);
         table.setHeaderVisible(true);
-        //set row height
+        // set row height
         table.addListener(SWT.MeasureItem, new Listener() {
             public void handleEvent(Event event) {
                 event.height = 25;
-             }
-          });
-        reverseButtons = new HashMap<Object, Button>();        
-        
+            }
+        });
+        reverseButtons = new HashMap<Object, Button>();
+
         vpmGroup.addControlListener(new ControlAdapter() {
             @Override
             public void controlResized(ControlEvent e) {
@@ -163,33 +175,35 @@ public class ProcessControlTab extends AbstractDashboardTab {
                 Point oldSize = table.getSize();
                 int buttonPrefferedWidth = -1;
                 if (reverseButtons != null && reverseButtons.values().toArray().length > 0) {
-                    buttonPrefferedWidth = ((Button) reverseButtons.values().toArray()[0]).computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+                    buttonPrefferedWidth = ((Button) reverseButtons.values().toArray()[0]).computeSize(SWT.DEFAULT,
+                            SWT.DEFAULT).x;
                 }
                 if (oldSize.x > area.width) {
-                  // table is getting smaller so make the columns 
-                  // smaller first and then resize the table to
-                  // match the client area width
+                    // table is getting smaller so make the columns
+                    // smaller first and then resize the table to
+                    // match the client area width
                     setColumnSize(buttonPrefferedWidth);
                     table.setSize(area.width, area.height);
                 } else {
-                  // table is getting bigger so make the table 
-                  // bigger first and then make the columns wider
-                  // to match the client area width                    
+                    // table is getting bigger so make the table
+                    // bigger first and then make the columns wider
+                    // to match the client area width
                     table.setSize(area.width, area.height);
                     setColumnSize(buttonPrefferedWidth);
-                    
+
                 }
-              }
+            }
+
             private void setColumnSize(int buttonPrefferedWidth) {
                 table.getColumns()[0].pack();
                 table.getColumns()[1].pack();
                 if (buttonPrefferedWidth < 0) {
                     table.getColumns()[2].pack();
                 } else {
-                    table.getColumns()[2].setWidth(buttonPrefferedWidth);                    
+                    table.getColumns()[2].setWidth(buttonPrefferedWidth);
                 }
             }
-            });
+        });
 
         createTable(table);
 
@@ -215,25 +229,93 @@ public class ProcessControlTab extends AbstractDashboardTab {
         dateColumn.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
-                return "";
+                if (!(element instanceof VPMModelReference)) {
+                    return "";
+                }
+                VPMModelReference vpm = (VPMModelReference) element;
+               
+                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+                IResource resource  = root.findMember(vpm.getPath());
+                File file = new File(resource.getLocationURI());        
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");                
+                return sdf.format(file.lastModified());
             }
         });
         TableViewerColumn actionColumn = new TableViewerColumn(tableViewer, SWT.NONE);
         actionColumn.getColumn().setText("Action");
         actionColumn.setLabelProvider(new CellButtonLabelProvider());
-        
+
         tableViewer.setContentProvider(new ArrayContentProvider());
         vpmInput = getSPLevoProject().getVpmModelReferences();
         tableViewer.setInput(vpmInput);
     }
+
+    private void createSnapshot(Composite composite) {
+        Group snapGroup = new Group(composite, SWT.FILL);
+        snapGroup.setText("Create Variation Point Model Snapshot");
+        snapGroup.setLayout(new GridLayout(3, false));
+        snapGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+
+        Label nameLabel = new Label(snapGroup, SWT.NONE);
+        nameLabel.setText("Name");
+
+        final Text nameText = new Text(snapGroup, SWT.BORDER);
+        nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+       
+
+        final Button nameButton = new Button(snapGroup, SWT.NONE);
+        nameButton.setText("Create");
+        nameButton.setEnabled(false);
+        nameButton.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseUp(MouseEvent e) {                
+                SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+
+                String splPath = getSPLevoProject().getWorkspace() + "RefactoredSPL";
+
+                BuildSPLWorkflowConfiguration configuration = new BuildSPLWorkflowConfiguration(splPath);
+                configuration.setSplevoProjectEditor(getSplevoProjectEditor());
+
+                SnapshotSPLWorkflowDelegate buildSPLWorkflowConfiguration = new SnapshotSPLWorkflowDelegate(configuration,
+                        spLevoBlackBoard, nameText.getText().trim());
+                    WorkflowListenerUtil.runWorkflowAndUpdateUI(buildSPLWorkflowConfiguration, "Save VPM",
+                        getSplevoProjectEditor());
+                nameText.setText("");
+            }
+
+            @Override
+            public void mouseDown(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseDoubleClick(MouseEvent e) {
+            }
+        });
+        
+        nameText.addModifyListener(new ModifyListener() {
+            
+            @Override
+            public void modifyText(ModifyEvent e) {
+                if (nameText.getText().trim().equals("")) {
+                    nameButton.setEnabled(false);
+                } else {
+                    nameButton.setEnabled(true);
+                }
+                
+            }
+        });
+    }
     
+
     /**
-     * A LabelProvider to display buttons and removing them if they are not needed anymore. 
+     * A LabelProvider to display buttons and removing them if they are not needed anymore.
      */
     private class CellButtonLabelProvider extends CellLabelProvider {
         private static final String VPM_DATA = "vpm_data";
         private static final String BUTTON_EDITOR = "button_editor";
-        
+
         @Override
         public void update(final ViewerCell cell) {
 
@@ -260,14 +342,13 @@ public class ProcessControlTab extends AbstractDashboardTab {
                             return;
                         }
                         VPMModelReference vpm = (VPMModelReference) button.getData(VPM_DATA);
-                        boolean confirmed = MessageDialog
-                                .openQuestion(shell, "Switch Back VPM Version",
-                                        String.format("You want to switch back to %s, which removes all later versions. "
-                                                + "Do you want to continue?", FilenameUtils.getBaseName(vpm.getPath())));
+                        boolean confirmed = MessageDialog.openQuestion(shell, "Switch Back VPM Version", String.format(
+                                "You want to switch back to %s, which removes all later versions. "
+                                        + "Do you want to continue?", FilenameUtils.getBaseName(vpm.getPath())));
                         if (confirmed) {
                             try {
                                 VPMUIUtil.switchBackVPMVersion(getSPLevoProject(), vpm).join();
-                            } catch (InterruptedException e) {                               
+                            } catch (InterruptedException e) {
                             }
                             tableViewer.setInput(vpmInput);
                             tableViewer.refresh();
@@ -316,8 +397,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
         if (tableViewer != null) {
             tableViewer.refresh();
             tableViewer.getControl().getParent().layout();
-            tableViewer.getControl().getParent().getParent().layout();  
-        }        
+            tableViewer.getControl().getParent().getParent().layout();
+        }
     }
 
     private void createActions(Composite composite) {
