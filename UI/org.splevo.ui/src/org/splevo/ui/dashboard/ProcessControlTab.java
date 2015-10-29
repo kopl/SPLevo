@@ -12,10 +12,11 @@
 package org.splevo.ui.dashboard;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
@@ -236,10 +237,11 @@ public class ProcessControlTab extends AbstractDashboardTab {
                
                 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
                 IResource resource  = root.findMember(vpm.getPath());
-                File file = new File(resource.getLocationURI());        
+                File file = new File(resource.getLocationURI());  
                 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");                
-                return sdf.format(file.lastModified());
+                DateFormat dateFormat  = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, 
+                        DateFormat.DEFAULT, Locale.getDefault());
+                return dateFormat.format(file.lastModified());
             }
         });
         TableViewerColumn actionColumn = new TableViewerColumn(tableViewer, SWT.NONE);
@@ -270,7 +272,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         nameButton.addMouseListener(new MouseListener() {
 
             @Override
-            public void mouseUp(MouseEvent e) {                
+            public void mouseUp(MouseEvent e) {                   
                 SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
 
                 String splPath = getSPLevoProject().getWorkspace() + "RefactoredSPL";
@@ -429,7 +431,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
         initVpmBtn = new Button(g, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
         initVpmBtn.setText("Init\nVPM");
-        initVpmBtn.setToolTipText("Init VPM");
+        initVpmBtn.setToolTipText("Your product copies will be analyzed for differences between them "
+                + "and a variation point model (VPM) will be opened.");
         getGridDataForButtons(initVpmBtn);
 
         addActivityFlowButton(g);
@@ -437,7 +440,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
         analyzeVPMBtn = new Button(g, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
         analyzeVPMBtn.setText("Refine\nVPM");
-        analyzeVPMBtn.setToolTipText("Refine VPM");
+        analyzeVPMBtn.setToolTipText("Analyze the identified variation points (differences) "
+                + "for any relationships between them.");
         getGridDataForButtons(analyzeVPMBtn);
 
         addActivityFlowButton(g);
@@ -445,7 +449,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
         startRefactoringBtn = new Button(g, SWT.WRAP);
         startRefactoringBtn.addMouseListener(new StartRefactoringListener(getSplevoProjectEditor()));
         startRefactoringBtn.setText("Refactor\nCopies");
-        startRefactoringBtn.setToolTipText("Refactor");
+        startRefactoringBtn.setToolTipText("Integrate the changes identified by variation points "
+                + "into the leading projects.");
         getGridDataForButtons(startRefactoringBtn);
 
         addActivityFlowButton(g);
