@@ -22,21 +22,41 @@ public class SaveAndReloadVPMJob extends SequentialBlackboardInteractingJob<SPLe
        
     /**
      * Constructs the job. The new file name will include the given path segment.
-     * @param splevoProject The SPLevoProject containing the project information such as the list of VPMs.
-     * @param pathSegment The identifier to be used in the new VPM file name.
-     * @param refactoringStarted 
+     * 
+     * @param splevoProject
+     *            The SPLevoProject containing the project information such as the list of VPMs.
+     * @param pathSegment
+     *            The identifier to be used in the new VPM file name.
+     * @param refactoringStarted
+     *            Indicates if a refactoring has already been started on the VPM.
      */
     public SaveAndReloadVPMJob(SPLevoProject splevoProject, String pathSegment, boolean refactoringStarted) {
-        addJobs(splevoProject, getTargetPath(splevoProject, pathSegment), refactoringStarted);
+        this(splevoProject, pathSegment, refactoringStarted, true);
     }
 
-    private void addJobs(SPLevoProject splevoProject, String targetPath, boolean refactoringStarted) {
+    /**
+     * Constructs the job. The new file name will include the given path segment.
+     * 
+     * @param splevoProject
+     *            The SPLevoProject containing the project information such as the list of VPMs.
+     * @param pathSegment
+     *            The identifier to be used in the new VPM file name.
+     * @param refactoringStarted
+     *            Indicates if a refactoring has already been started on the VPM.
+     * @param overwrite
+     *            Indicates if an existing VPM shall be overwritten
+     */
+    public SaveAndReloadVPMJob(SPLevoProject splevoProject, String pathSegment, boolean refactoringStarted, boolean overwrite) {
+        addJobs(splevoProject, getTargetPath(splevoProject, pathSegment), refactoringStarted, overwrite);
+    }
+
+    private void addJobs(SPLevoProject splevoProject, String targetPath, boolean refactoringStarted, boolean overwrite) {
         // load latest vpm model in blackboard
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         add(loadVPMJob);
         
         // save the latest vpm model
-        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath, refactoringStarted);
+        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath, refactoringStarted, overwrite);
         add(saveVPMJob);
         
         // load latest vpm model in blackboard

@@ -35,6 +35,8 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
     private boolean refactoringStarted;
 
+    private boolean overwrite;
+
     /**
      * Constructor to set the reference to the splevo project and the target path to write the model
      * to.
@@ -47,9 +49,27 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      *            Indicates if a refactoring has already been started for the VPM.
      */
     public SaveVPMJob(SPLevoProject splevoProject, String targetPath, boolean refactoringStarted) {
+        this(splevoProject, targetPath, refactoringStarted, true);
+    }
+
+    /**
+     * Constructor to set the reference to the splevo project and the target path to write the model
+     * to.
+     * 
+     * @param splevoProject
+     *            The project to update.
+     * @param targetPath
+     *            The eclipse workspace relative path to write to.
+     * @param refactoringStarted
+     *            Indicates if a refactoring has already been started for the VPM.
+     * @param overwrite
+     *            Specifies if an existing file shall be overwritten.
+     */
+    public SaveVPMJob(SPLevoProject splevoProject, String targetPath, boolean refactoringStarted, boolean overwrite) {
         this.splevoProject = splevoProject;
         this.targetPath = targetPath;
         this.refactoringStarted = refactoringStarted;
+        this.overwrite = overwrite;
     }
 
     @Override
@@ -57,9 +77,14 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
 
+        File targetFile = new File(targetPath);
+        if (!overwrite && targetFile.exists()) {
+            throw new JobFailedException("The VPM file already exists.");
+        }
+        
         logger.info("Save VPM Model");
         try {
-            VPMUtil.save(vpm, new File(targetPath));
+            VPMUtil.save(vpm, targetFile);
             splevoProject.addVPMModelReference(targetPath, refactoringStarted);
         } catch (IOException e) {
             throw new JobFailedException("Failed to save vpm model.", e);

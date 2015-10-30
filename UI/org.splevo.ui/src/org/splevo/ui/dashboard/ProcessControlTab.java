@@ -287,7 +287,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
                 SnapshotSPLWorkflowDelegate buildSPLWorkflowConfiguration = null;
                 try {
                     buildSPLWorkflowConfiguration = new SnapshotSPLWorkflowDelegate(configuration,
-                            spLevoBlackBoard, name, fileNameExists(name));
+                            spLevoBlackBoard, name);
                     WorkflowListenerUtil.runWorkflowAndUpdateUI(buildSPLWorkflowConfiguration, "Save VPM",
                         getSplevoProjectEditor());
                     nameText.setText("");
@@ -295,16 +295,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
                    Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();                    
                    MessageDialog.openError(shell, "Error", e1.getMessage());
                 }                
-            }
-            
-            private boolean fileNameExists(String name) {
-                List<VPMModelReference> vpms = getSPLevoProject().getVpmModelReferences();
-                for (VPMModelReference vpm : vpms) {
-                    if (FilenameUtils.getBaseName(vpm.getPath()).equals(name + "-vpm")) {
-                        return true;
-                    }
-                }
-                return false;
             }
 
             @Override

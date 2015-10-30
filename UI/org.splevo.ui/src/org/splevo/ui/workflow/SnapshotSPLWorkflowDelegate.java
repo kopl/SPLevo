@@ -29,18 +29,14 @@ public class SnapshotSPLWorkflowDelegate extends
      * 
      * @param config The configuration of the workflow.
      * @param blackboard The blackboard to communicate through.
-     * @param snapName the name of the vpm model
-     * @param exists true if the snapName already exists, false otherwise
+     * @param snapName The name of the vpm model
      * @throws JobFailedException if exists is true
      */
     public SnapshotSPLWorkflowDelegate(BuildSPLWorkflowConfiguration config, SPLevoBlackBoard blackboard, 
-            String snapName, boolean exists) throws JobFailedException {
+            String snapName) throws JobFailedException {
         this.config = config;
         this.blackboard = blackboard;
         this.snapName = snapName;
-        if (exists) {
-            throw new JobFailedException("There is already a file with the name: " + snapName);
-        }
     }
 
     @Override
@@ -59,7 +55,7 @@ public class SnapshotSPLWorkflowDelegate extends
         jobSequence.setBlackboard(blackboard);
 
         // save and reload vpm model
-        jobSequence.add(new SaveAndReloadVPMJob(splevoProject, snapName, false));
+        jobSequence.add(new SaveAndReloadVPMJob(splevoProject, snapName, false, false));
 
         return jobSequence;
     }
