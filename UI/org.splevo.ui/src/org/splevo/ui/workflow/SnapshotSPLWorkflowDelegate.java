@@ -9,6 +9,7 @@ import org.splevo.ui.jobs.SaveAndReloadVPMJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -29,11 +30,17 @@ public class SnapshotSPLWorkflowDelegate extends
      * @param config The configuration of the workflow.
      * @param blackboard The blackboard to communicate through.
      * @param snapName the name of the vpm model
+     * @param exists true if the snapName already exists, false otherwise
+     * @throws JobFailedException if exists is true
      */
-    public SnapshotSPLWorkflowDelegate(BuildSPLWorkflowConfiguration config, SPLevoBlackBoard blackboard, String snapName) {
+    public SnapshotSPLWorkflowDelegate(BuildSPLWorkflowConfiguration config, SPLevoBlackBoard blackboard, 
+            String snapName, boolean exists) throws JobFailedException {
         this.config = config;
         this.blackboard = blackboard;
         this.snapName = snapName;
+        if (exists) {
+            throw new JobFailedException("There is already a file with the name: " + snapName);
+        }
     }
 
     @Override
@@ -42,7 +49,8 @@ public class SnapshotSPLWorkflowDelegate extends
     }
 
     @Override
-    protected IJob createWorkflowJob(BuildSPLWorkflowConfiguration arg0) {
+    protected IJob createWorkflowJob(BuildSPLWorkflowConfiguration arg0) {       
+        
         final SPLevoProjectEditor splevoProjectEditor = config.getSplevoProjectEditor();
         final SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
 

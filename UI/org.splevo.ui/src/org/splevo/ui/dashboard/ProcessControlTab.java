@@ -57,6 +57,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.ResourceManager;
 import org.mihalis.opal.header.Header;
 import org.splevo.project.SPLevoProject;
@@ -76,6 +77,8 @@ import org.splevo.ui.workflow.BuildSPLWorkflowConfiguration;
 import org.splevo.ui.workflow.SnapshotSPLWorkflowDelegate;
 
 import com.google.common.collect.Iterables;
+
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 
 /**
  * The tab to control the consolidation process.
@@ -280,11 +283,28 @@ public class ProcessControlTab extends AbstractDashboardTab {
                 BuildSPLWorkflowConfiguration configuration = new BuildSPLWorkflowConfiguration(splPath);
                 configuration.setSplevoProjectEditor(getSplevoProjectEditor());
 
-                SnapshotSPLWorkflowDelegate buildSPLWorkflowConfiguration = new SnapshotSPLWorkflowDelegate(configuration,
-                        spLevoBlackBoard, nameText.getText().trim());
+                String name = nameText.getText().trim();
+                SnapshotSPLWorkflowDelegate buildSPLWorkflowConfiguration = null;
+                try {
+                    buildSPLWorkflowConfiguration = new SnapshotSPLWorkflowDelegate(configuration,
+                            spLevoBlackBoard, name, fileNameExists(name));
                     WorkflowListenerUtil.runWorkflowAndUpdateUI(buildSPLWorkflowConfiguration, "Save VPM",
                         getSplevoProjectEditor());
-                nameText.setText("");
+                    nameText.setText("");
+                } catch (JobFailedException e1) {
+                   Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();                    
+                   MessageDialog.openError(shell, "Error", e1.getMessage());
+                }                
+            }
+            
+            private boolean fileNameExists(String name) {
+                List<VPMModelReference> vpms = getSPLevoProject().getVpmModelReferences();
+                for (VPMModelReference vpm : vpms) {
+                    if (FilenameUtils.getBaseName(vpm.getPath()).equals(name + "-vpm")) {
+                        return true;
+                    }
+                }
+                return false;
             }
 
             @Override
