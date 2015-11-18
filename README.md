@@ -10,6 +10,8 @@ Getting Started
 
 * **[Quick Start Guide](https://github.com/kopl/SPLevo/wiki/Quick%20Start%20Guide)**  
 To start right away using SPLevo check out this quick start
+* **[Issue Tracker](https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO)**  
+If you encounter any bugs, please report an issue in our issue tracking system
 * **[Development Guide](https://github.com/kopl/SPLevo/wiki/Developer-Guide)**  
 If you are interested in the technology behind SPLevo, check out the developer guide
 * **Wiki & More**  
@@ -18,8 +20,12 @@ For anything else take a look at our [wiki](https://github.com/kopl/SPLevo/wiki)
 Installation
 ====
 
-SPLevo is still under development, but the latest version integrated in Eclipse can be installed from our nightly update site:<br>
-http://sdqweb.ipd.kit.edu/eclipse/splevo/nightly/
+The latest stable version of SPLevo can be installed from the stable update site:<br>
+https://sdqweb.ipd.kit.edu/eclipse/splevo/releases/stable
+
+For the latest nightly builds, you can use the nightly update site:<br>
+https://sdqweb.ipd.kit.edu/eclipse/splevo/nightly
+
 
 The update site provides access to:
 
