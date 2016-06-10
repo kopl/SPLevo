@@ -22,12 +22,12 @@
     </iu>
     <iu id='org.eclipse.featuremodel.feature.feature.group' name='EMF Feature Meta Model' version='0.8.0'>
       <repositories size='1'>
-        <repository location='http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/'/>
+        <repository location='http://kopl.github.io/EMFFeatureModelArchive/update-site/0.8.0/'/>
       </repositories>
     </iu>
     <iu id='org.eclipse.featuremodel.diagrameditor.feature.feature.group' name='Feature Diagram Editor' version='0.8.0'>
       <repositories size='1'>
-        <repository location='http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/'/>
+        <repository location='http://kopl.github.io/EMFFeatureModelArchive/update-site/0.8.0/'/>
       </repositories>
     </iu>
     <iu id='org.eclipse.zest.sdk.feature.group' name='Graphical Editing Framework Zest Visualization Toolkit SDK' version='1.5.1.201308190730'>
@@ -42,17 +42,17 @@
     </iu>
     <iu id='org.emftext.language.java.ui.feature.group' name='JaMoPP - Java Model Editor' version='1.4.1.v201408111316'>
       <repositories size='1'>
-        <repository location='http://jamopp.org/update_trunk'/>
+        <repository location='http://update.jamopp.org/trunk'/>
       </repositories>
     </iu>
     <iu id='org.emftext.language.java.feature.group' name='JaMoPP - Java Model Parser and Printer' version='1.4.1.v201408111316'>
       <repositories size='1'>
-        <repository location='http://jamopp.org/update_trunk'/>
+        <repository location='http://update.jamopp.org/trunk'/>
       </repositories>
     </iu>
     <iu id='org.emftext.language.java.jdt.feature.group' name='JaMoPP - Java Model Parser and Printer (Eclipse JDT Integration)' version='1.4.1.v201408111316'>
       <repositories size='1'>
-        <repository location='http://jamopp.org/update_trunk'/>
+        <repository location='http://update.jamopp.org/trunk'/>
       </repositories>
     </iu>
     <iu id='de.uka.ipd.sdq.workflow.feature.core.feature.group' name='Palladio Workflow Engine Core' version='2.0.3.201402262026'>

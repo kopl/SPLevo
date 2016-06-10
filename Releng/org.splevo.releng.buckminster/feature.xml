@@ -21,11 +21,11 @@
       <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/"/>
       <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/"/>
       <discovery label="Kepler (ZEST)" url="http://download.eclipse.org/releases/kepler"/>
-      <discovery label="JaMoPP" url="http://jamopp.org/update_trunk"/>
+      <discovery label="JaMoPP" url="http://update.jamopp.org/trunk"/>
       <discovery label="FeatureMapper" url="http://featuremapper.org/update"/>
       <discovery label="NatSpec" url="http://nat-spec.com/update"/>
-      <discovery label="EMFText" url="http://www.emftext.org/update_trunk/"/>
-      <discovery label="EMF Feature Model" url="http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/"/>
+      <discovery label="EMFText" url="http://update.emftext.org/trunk/"/>
+      <discovery label="EMF Feature Model" url="http://kopl.github.io/EMFFeatureModelArchive/update-site/0.8.0/"/>
    </url>
 
    <includes
